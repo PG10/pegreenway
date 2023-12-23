@@ -1,9 +1,33 @@
 <!DOCTYPE html>
 <html>
+
+.click-zoom input[type=checkbox] {
+  display: none
+}
+
+.click-zoom img {
+  margin: 100px;
+  transition: transform 0.25s ease;
+  cursor: zoom-in
+}
+
+.click-zoom input[type=checkbox]:checked~img {
+  transform: scale(2);
+  cursor: zoom-out
+}
+
+
+  
 <body>
 
-<h2>HTML Image</h2>
-<img src="img/download.png" alt="Trulli" width="500" height="333">
+<div class="click-zoom">
+  <label>
+    <input type="checkbox">
+    <img src="img/download.png" alt="Trulli" width="500" height="333">
+  </label>
+</div>
 
 </body>
 </html>
+
+
