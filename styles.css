@@ -29,61 +29,20 @@
 }
 
 
-header {
-  font-family: "Medium";
-  background-color: white;
-  border-style: solid;
-  border-width: 1px;
-  margin: 20px;
-  margin-bottom: 10px;
-  padding: 30px;
-  text-align: left;
-  font-size: 32px;
-  color: black;
-}
-
 body {
-  font-family: Helvetica, sans-serif;
-  font-weight: 100;
-  padding: 0;
-  line-height: 14pt;
   margin: 0;
-}
-
-/*Nagivation Filter Menu*/
-
-
-.tab {
-  float: left;
-  border-width: 1px 1px;
-  border-style: solid;
-  border-color: grey;
-  background-color: white;
-  color: black;
-  font-family: "Helvetica", sans-serif;
-  font-weight: 100;
-  line-height: 50px;
-  width: 100%;
-  text-align: left;
-  padding: 2px 10px;
-  margin-left: 100px;
-  margin-top: 10px;
-  display: none;
-}
-
-.show {
-  display: block;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .container {
-  margin-top: 50px;
-  float: left;
-  padding: 50px 0px;
-  margin: 0 auto;
   width: 100%;
+  border-bottom: 1px solid grey;
 }
 
 .btn {
+  margin-top: 25px;
+  width: 50px;
   border: none;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -91,12 +50,8 @@ body {
   padding: 9px 9px;
   background-color: #f1f1f1;
   cursor: pointer;
-  margin-left: 100px;
-  margin-right: -100px;
-  margin-top: 60px;
-  font-family: "Helvetica", sans-serif;
   font-weight: 100;
-
+  font-family: "Medium", sans-serif;
 }
 
 .btn:hover {
@@ -105,36 +60,96 @@ body {
 
 .btn.active {
   background-color: rgb(257, 204, 166, 1.0);
+  font-family: "Bold", sans-serif;
 }
 
-.text-link {
-  color: grey;
-  text-decoration: none;
-  font-family: "Light";
-  font-weight: 100;
-  letter-spacing: 0.235px;
-
-  padding-top: 25px;
-  padding-bottom: 25px;
-}
-
-.text-link:hover {
+.tab {
+  float: left;
+  background-color: white;
   color: black;
-  font-family: "Medium";
-  letter-spacing: 0;
+  font-weight: 100;
+  line-height: 30px;
+  width: 100%;
+  text-align: left;
+  display: none;
+}
+
+.tab:hover {
+  background-color: #f1f1f1;
+}
+
+.tab:hover .tab-details tr td {
+  color: black;
   transition: 0.1s;
-  padding-left: 10px;
+  padding-left: 15px;
   cursor: default;
+  font-family: "Bold", sans-serif;
 }
 
 .hover-img {
   display: none;
+  position: fixed;
+  height: 500px;
+  left: 66%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.hover-img div:hover {
+.tab:hover .hover-img {
   display: block;
 }
 
+.tab.active:hover .hover-img {
+  display: none;
+}
+
+.tab-details {
+  border-collapse: collapse;
+  color: grey;
+  text-decoration: none;
+  font-family: "Light";
+  font-weight: 100;
+  width: 100%;
+}
+
+.tab-details tr td {
+  width: 30%;
+  border-left: 1px solid grey;
+  border-top: 1px solid grey;
+  padding: 5px 10px;
+  font-family: "Medium", sans-serif;
+}
+
+.project-info {
+  max-height: 0;
+  /* transition: max-height 0.1s ease-in-out; */
+  overflow: hidden;
+  height: auto;
+}
+
+.tab.active .project-info {
+  max-height: 1000px;
+}
+
+.project-text {
+  width: 30%;
+  float: left;
+}
+
+.project-gallery {
+  width: 70%;
+  float: left;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+.project-gallery img {
+  max-height: 300px;
+}
+
+.show {
+  display: block;
+}
 
 @media screen and (max-width: 1040px) {}
 
