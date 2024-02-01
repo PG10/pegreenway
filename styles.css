@@ -78,14 +78,6 @@ body {
   background-color: #f1f1f1;
 }
 
-.tab:hover .tab-details tr td {
-  color: black;
-  transition: 0.1s;
-  padding-left: 15px;
-  cursor: default;
-  font-family: "Bold", sans-serif;
-}
-
 .hover-img {
   display: none;
   position: fixed;
@@ -93,6 +85,7 @@ body {
   left: 66%;
   top: 50%;
   transform: translate(-50%, -50%);
+  border: black 1px solid;
 }
 
 .tab:hover .hover-img {
@@ -113,16 +106,24 @@ body {
 }
 
 .tab-details tr td {
-  width: 30%;
+  width: 300px;
   border-left: 1px solid grey;
   border-top: 1px solid grey;
-  padding: 5px 10px;
+  padding: 0px 10px;
   font-family: "Medium", sans-serif;
+}
+
+.tab-details tr:hover .title {
+  color: black;
+  transition: 0.1s;
+  cursor: default;
+  font-family: "Bold", sans-serif;
+  font-weight: 1000;
 }
 
 .project-info {
   max-height: 0;
-  /* transition: max-height 0.1s ease-in-out; */
+  transition: max-height 0.5s ease-in-out;
   overflow: hidden;
   height: auto;
 }
@@ -132,15 +133,17 @@ body {
 }
 
 .project-text {
-  width: 30%;
+  width: 400px;
   float: left;
+  padding: 5px 10px;
 }
 
 .project-gallery {
-  width: 70%;
+  width: 60%;
   float: left;
   overflow-x: scroll;
   white-space: nowrap;
+  padding: 5px 10px;
 }
 
 .project-gallery img {
