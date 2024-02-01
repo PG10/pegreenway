@@ -10,17 +10,18 @@
 
 <body>
   <div id="filters">
-    <button class="btn active" onclick="filterSelection('all')">all</button>
-    <button class="btn" onclick="filterSelection('23')">23</button>
-    <button class="btn" onclick="filterSelection('22')">22</button>
-    <button class="btn" onclick="filterSelection('21')">21</button>
-    <button class="btn" onclick="filterSelection('20')">20</button>
-    <button class="btn" onclick="filterSelection('19')">19</button>
+    <button class="filterSelector active" onclick="filterSelection('all')">all</button>
+    <button class="filterSelector" onclick="filterSelection('23')">23</button>
+    <button class="filterSelector" onclick="filterSelection('22')">22</button>
+    <button class="filterSelector" onclick="filterSelection('21')">21</button>
+    <button class="filterSelector" onclick="filterSelection('20')">20</button>
+    <button class="filterSelector" onclick="filterSelection('19')">19</button>
   </div>
 
   <div class="container">
 
     <div class="tab 23">
+      <img class="hover-img" src="img/projectCovers/wood diagram.jpg">
       <table class="tab-details" onclick="openCloseProject(this)">
         <tr>
           <td class="title">wood diagram</td>
@@ -28,16 +29,15 @@
           <td>drawing</td>
         </tr>
       </table>
-      <img class="hover-img" src="img/projectCovers/wood diagram.jpg">
       <div class="project-info">
-        <div class="project-text">
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-            industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
-            electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of
-            Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
-            Aldus PageMaker including versions of Lorem Ipsum.</p>
-        </div>
+        <table>
+          <tr class="project-text">
+            <td>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
+              took a galley of type and scrambled it to make a type specimen book.</td>
+            <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </td>
+            <td>Something else interesting and about Lorem Ipsum.</td>
+          </tr>
+        </table>
         <div class="project-gallery">
           <img src="img\test\wombat.jpg">
           <img src="img\test\wombat.jpg">
@@ -61,342 +61,343 @@
         this is some text
       </div>
     </div>
+  </div>
 
-    <div class="tab 22">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">c287 facade & kitchen</td>
-          <td>2022</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/c287 cover.jpg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 22">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">c287 facade & kitchen</td>
+        <td>2022</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/c287 cover.jpg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 22">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">cybernetix house</td>
-          <td>2022</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/cybernetix.jpg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 22">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">cybernetix house</td>
+        <td>2022</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/cybernetix.jpg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 22">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">deconstruction poster</td>
-          <td>2022</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/decon poster.jpg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 22">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">deconstruction poster</td>
+        <td>2022</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/decon poster.jpg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 22">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">circular industry center</td>
-          <td>2022</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/Thesis Cover.jpg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 22">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">circular industry center</td>
+        <td>2022</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/Thesis Cover.jpg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 22">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">interrobang magazine</td>
-          <td>2022</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/interrobang cover.jpg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 22">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">interrobang magazine</td>
+        <td>2022</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/interrobang cover.jpg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 22">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">descriptive geometry</td>
-          <td>2022</td>
-          <td>experimentation</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/desc geo cover.jpg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 22">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">descriptive geometry</td>
+        <td>2022</td>
+        <td>experimentation</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/desc geo cover.jpg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 21">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">FUCVAM casestudy poster</td>
-          <td>2021</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/Final Poster-3.jpg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 21">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">FUCVAM casestudy poster</td>
+        <td>2021</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/Final Poster-3.jpg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 21">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">greenspace mapping</td>
-          <td>2021</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/greenspace mapping.jpg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 21">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">greenspace mapping</td>
+        <td>2021</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/greenspace mapping.jpg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 21">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">new granada theater</td>
-          <td>2021</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/new granda cover 2.jpeg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 21">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">new granada theater</td>
+        <td>2021</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/new granda cover 2.jpeg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 21">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">m194</td>
-          <td>2021</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 21">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">m194</td>
+        <td>2021</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 20">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">helsinki design museum</td>
-          <td>2020</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/helsinki museum.jpg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 20">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">helsinki design museum</td>
+        <td>2020</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/helsinki museum.jpg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 20">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">breath eco lab</td>
-          <td>2020</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/lab.jpg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 20">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">breath eco lab</td>
+        <td>2020</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/lab.jpg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 20">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">black box collages</td>
-          <td>2020</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 20">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">black box collages</td>
+        <td>2020</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 20">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">garfield environmental center</td>
-          <td>2020</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 20">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">garfield environmental center</td>
+        <td>2020</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 20">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">urban design computing</td>
-          <td>2020</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 20">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">urban design computing</td>
+        <td>2020</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 20">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">225 fifth ave elevation</td>
-          <td>2020</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/225 fifth cover.jpg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 20">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">225 fifth ave elevation</td>
+        <td>2020</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/225 fifth cover.jpg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 19">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">spring valley youth hostel</td>
-          <td>2019</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/Hostel-Hover-image-v1.jpg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 19">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">spring valley youth hostel</td>
+        <td>2019</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/Hostel-Hover-image-v1.jpg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 19">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">museum of weather</td>
-          <td>2019</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/Weather Museum Cover.jpeg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 19">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">museum of weather</td>
+        <td>2019</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/Weather Museum Cover.jpeg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 19">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">city as form</td>
-          <td>2019</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 19">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">city as form</td>
+        <td>2019</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 19">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">panther hollow derive</td>
-          <td>2019</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 19">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">panther hollow derive</td>
+        <td>2019</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 19">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">saco lake bathhouse</td>
-          <td>2019</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 19">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">saco lake bathhouse</td>
+        <td>2019</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 19">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">furniture</td>
-          <td>2019</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 19">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">furniture</td>
+        <td>2019</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 18">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">hoop house</td>
-          <td>2018</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 18">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">hoop house</td>
+        <td>2018</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
 
-    <div class="tab 18">
-      <table class="tab-details" onclick="openCloseProject(this)">
-        <tr>
-          <td class="title">urban grow center</td>
-          <td>2018</td>
-          <td>drawing</td>
-        </tr>
-      </table>
-      <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
-      <div class="project-info">
-        this is some text
-      </div>
+  <div class="tab 18">
+    <table class="tab-details" onclick="openCloseProject(this)">
+      <tr>
+        <td class="title">urban grow center</td>
+        <td>2018</td>
+        <td>drawing</td>
+      </tr>
+    </table>
+    <img class="hover-img" src="img/projectCovers/COA Cover.jpeg">
+    <div class="project-info">
+      this is some text
     </div>
+  </div>
   </div>
 
   <script>
@@ -452,7 +453,7 @@
 
     // Add active class to the current button (highlight it)
     var btnContainer = document.getElementById("filters");
-    var btns = btnContainer.getElementsByClassName("btn");
+    var btns = btnContainer.getElementsByClassName("filterSelector");
     for (var i = 0; i < btns.length; i++) {
       btns[i].addEventListener("click", function () {
         var current = document.getElementsByClassName("active");
