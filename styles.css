@@ -33,6 +33,7 @@ body {
   margin: 0;
   max-width: 100%;
   overflow-x: hidden;
+  font-weight: 100;
 }
 
 .container {
@@ -101,7 +102,6 @@ body {
   color: grey;
   text-decoration: none;
   font-family: "Light";
-  font-weight: 100;
   width: 100%;
 }
 
@@ -118,7 +118,7 @@ body {
   transition: 0.1s;
   cursor: default;
   font-family: "Bold", sans-serif;
-  font-weight: 1000;
+  font-weight: 600;
 }
 
 .project-info {
