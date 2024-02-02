@@ -36,13 +36,8 @@ body {
   font-weight: 100;
 }
 
-.meta-info {
-  background-color: grey;
-}
-
 #page-title {
   position: absolute;
-  top: 100;
   font-family: "Medium", sans-serif;
   margin-left: 5px;
 }
@@ -130,11 +125,31 @@ body {
 }
 
 .tab-details tr td {
-  width: 300px;
   border-left: 1px solid grey;
+  border-right: 1px solid grey;
   border-top: 1px solid grey;
   padding: 0px 10px;
   font-family: "Medium", sans-serif;
+}
+
+.title {
+  width: 1000px;
+  transition: width 0.3s ease-in-out;
+}
+
+.date {
+  width: 50px;
+  transition: width 0.3s ease-in-out;
+}
+
+.type {
+  display: 10px;
+  transition: width 0.3s ease-in-out;
+}
+
+.abstract {
+  width: 1000px;
+  transition: width 0.3s ease-in-out;
 }
 
 .tab-details tr:hover .title {
@@ -174,9 +189,9 @@ body {
 }
 
 .project-text td {
-  width: 300px;
   border-left: 1px solid grey;
   border-top: 1px solid lightgrey;
+  border-right: 1px solid grey;
   padding: 5px 10px;
   line-height: 15px;
   font-family: "Medium", sans-serif;
@@ -201,12 +216,60 @@ body {
   display: block;
 }
 
-@media screen and (max-width: 1040px) {}
+@media screen and (max-width: 1550px) {
 
-@media screen and (max-width: 1550px) {}
+  .title {
+    width: 700px;
+  }
 
-@media screen and (max-width: 1040px) {}
+  .abstract {
+    width: 700px;
+  }
+}
 
-@media screen and (max-width: 650px) {}
+@media screen and (max-width: 1040px) {
 
-@media (any-pointer: coarse) {}
+  .title {
+    width: 400px;
+  }
+
+  .abstract {
+    width: 400px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  #page-title {
+    position: unset;
+  }
+
+  .filterSelector {
+    margin-top: 0;
+  }
+
+  .title {
+    width: 250px;
+  }
+
+  .date {
+    width: 50px;
+  }
+
+  .type {
+    display: none;
+  }
+
+  .abstract {
+    width: 100%;
+  }
+
+  .additional-description {
+    display: none;
+  }
+
+  .tab:hover .hover-img {
+    display: none;
+  }
+}
+
+/* @media (any-pointer: coarse) {} */
