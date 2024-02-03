@@ -30,20 +30,23 @@
 
 
 body {
-  margin: 0;
+  margin: 30px;
   max-width: 100%;
   overflow-x: hidden;
   font-weight: 100;
 }
 
-#page-title {
-  position: absolute;
-  font-family: "Medium", sans-serif;
-  margin-left: 5px;
-}
 
 #filters {
+  position: absolute;
+  font-family: "Medium", sans-serif;
+
+}
+
+#page-title {
   float: right;
+  font-family: light;
+  font-weight: 1px;
 }
 
 .filterSelector {
@@ -71,15 +74,18 @@ body {
 
 .container {
   width: 100%;
+
   /* border-bottom: 1px solid grey; */
 }
 
 .tab {
   float: left;
+
   background-color: white;
   color: black;
   font-weight: 100;
-  line-height: 30px;
+  line-height: 50px;
+
   width: 100%;
   text-align: left;
   display: none;
@@ -101,7 +107,8 @@ body {
 .hover-img {
   display: none;
   position: absolute;
-  height: 300px;
+  height: 600px;
+  opacity: 90%;
   border: black 1px solid;
   top: 0;
   left: 0;
@@ -122,19 +129,24 @@ body {
   text-decoration: none;
   font-family: "Light";
   width: 100%;
+
+
+
 }
 
 .tab-details tr td {
   border-left: 1px solid grey;
   border-right: 1px solid grey;
-  border-top: 1px solid grey;
+    border-top: grey solid 1px;
+
   padding: 0px 10px;
-  font-family: "Medium", sans-serif;
+  font-family: "light", sans-serif;
 }
 
 .title {
   width: 1000px;
   transition: width 0.3s ease-in-out;
+
 }
 
 .date {
@@ -156,8 +168,10 @@ body {
   color: black;
   transition: 0.1s;
   cursor: default;
-  font-family: "Bold", sans-serif;
+  font-family: "light", sans-serif;
+  font-weight: 300px;
   cursor: pointer;
+
 }
 
 
@@ -169,7 +183,10 @@ body {
   color: black;
   transition: 0.1s;
   cursor: default;
-  font-family: "Bold", sans-serif;
+  font-family: "light", sans-serif;
+  font-weight: 900px;
+    border-top: grey solid 1px;
+
 }
 
 .project-info {
@@ -177,10 +194,12 @@ body {
   transition: max-height 0.5s ease-in-out;
   overflow: hidden;
   height: auto;
+
 }
 
 .tab.active .project-info {
   max-height: 1000px;
+
 }
 
 .project-info table {
@@ -190,11 +209,11 @@ body {
 
 .project-text td {
   border-left: 1px solid grey;
-  border-top: 1px solid lightgrey;
+  border-top: 1px solid grey;
   border-right: 1px solid grey;
   padding: 5px 10px;
-  line-height: 15px;
-  font-family: "Medium", sans-serif;
+  line-height: 30px;
+  font-family: "light", sans-serif;
   vertical-align: top;
   color: gray;
 }
@@ -202,14 +221,14 @@ body {
 .project-gallery {
   overflow-x: scroll;
   white-space: nowrap;
-  padding: 5px 5px;
-  border-top: lightgrey solid 1px;
-  border-bottom: grey solid 1px;
+  padding: 30px 7px;
+  border-top: grey solid 1px;
+  border-bottom: 1px solid lightgrey;
   border-left: 1px solid grey;
 }
 
 .project-gallery img {
-  max-height: 300px;
+  max-height: 600px;
 }
 
 .show {
