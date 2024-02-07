@@ -194,6 +194,7 @@ body {
   transition: max-height 0.5s ease-in-out;
   overflow: hidden;
   height: auto;
+  background-color: white;
 
 }
 
@@ -221,7 +222,7 @@ body {
 .project-gallery {
   overflow-x: scroll;
   white-space: nowrap;
-  padding: 30px 7px;
+  padding: 30px 20px;
   border-top: grey solid 1px;
   border-bottom: 1px solid lightgrey;
   border-left: 1px solid grey;
@@ -229,6 +230,8 @@ body {
 
 .project-gallery img {
   max-height: 600px;
+    border: 1px solid lightgrey;
+    margin-left: 15px;
 }
 
 .show {
