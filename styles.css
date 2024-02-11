@@ -107,7 +107,7 @@ body {
 .hover-img {
   display: none;
   position: absolute;
-  height: 600px;
+  height: 45vh;
   opacity: 90%;
   border: black 1px solid;
   top: 0;
@@ -137,7 +137,7 @@ body {
 .tab-details tr td {
   border-left: 1px solid grey;
   border-right: 1px solid grey;
-    border-top: grey solid 1px;
+  border-top: grey solid 1px;
 
   padding: 0px 10px;
   font-family: "light", sans-serif;
@@ -185,7 +185,7 @@ body {
   cursor: default;
   font-family: "light", sans-serif;
   font-weight: 900px;
-    border-top: grey solid 1px;
+  border-top: grey solid 1px;
 
 }
 
@@ -225,12 +225,13 @@ body {
   padding: 30px 20px;
   border-top: grey solid 1px;
   border-left: 1px solid grey;
+  border-right: 1px solid grey;
 }
 
 .project-gallery img {
   max-height: 600px;
-    border: 1px solid lightgrey;
-    margin-left: 15px;
+  border: 1px solid lightgrey;
+  margin-left: 15px;
 }
 
 .show {
@@ -259,7 +260,7 @@ body {
   }
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 700px) {
   #page-title {
     position: unset;
   }
