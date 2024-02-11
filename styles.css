@@ -164,7 +164,7 @@ body {
   transition: width 0.3s ease-in-out;
 }
 
-.tab-details tr:hover .title {
+.tab-details tr:hover td {
   color: black;
   transition: 0.1s;
   cursor: default;
@@ -179,15 +179,15 @@ body {
   cursor: pointer;
 }
 
-.tab.active .title {
+.tab.active td {
   color: black;
   transition: 0.1s;
   cursor: default;
   font-family: "light", sans-serif;
   font-weight: 900px;
   border-top: grey solid 1px;
-
 }
+
 
 .project-info {
   max-height: 0;
@@ -224,7 +224,6 @@ body {
   white-space: nowrap;
   padding: 30px 20px;
   border-top: grey solid 1px;
-  border-bottom: 1px solid lightgrey;
   border-left: 1px solid grey;
   border-right: 1px solid grey;
 }
