@@ -15,23 +15,21 @@
 </head>
 
 <body>
-  <div class="meta-info">
-    <h2 id="page-title"> _ </h2>
-    <div id="filters">
-      <button class="filterSelector active" onclick="filterSelection('all')">all</button>
-      <button class="filterSelector" onclick="filterSelection('23')">23</button>
-      <button class="filterSelector" onclick="filterSelection('22')">22</button>
-      <button class="filterSelector" onclick="filterSelection('21')">21</button>
-      <button class="filterSelector" onclick="filterSelection('20')">20</button>
-      <button class="filterSelector" onclick="filterSelection('19')">19</button>
-    </div>
-  </div>
-
   <!--___________________________________________________________________________________________________-->
   <div class="container">
+    <div class="meta-info">
+      <p id="page-title">pegreenway@placeholder.com</p>
+      <div id="filters">
+        <button class="filterSelector active" onclick="filterSelection('all')">all</button>
+        <button class="filterSelector" onclick="filterSelection('23')">23</button>
+        <button class="filterSelector" onclick="filterSelection('22')">22</button>
+        <button class="filterSelector" onclick="filterSelection('21')">21</button>
+        <button class="filterSelector" onclick="filterSelection('20')">20</button>
+        <button class="filterSelector" onclick="filterSelection('19')">19</button>
+      </div>
+    </div>
 
     <!--_____________________________________________________________________________________________________-->
-
 
     <div class="tab 23" id="wood-diagram" href="#wood-diagram">
       <img class="hover-img" src="img/projectCovers/wood diagram.jpg">
@@ -866,11 +864,11 @@
       let body = document.querySelector('body');
       let hoverImgs = document.getElementsByClassName('hover-img');
       let left = e.clientX;
-      let top = e.clientY;
+      let top = e.clientY + window.scrollY;
       //PART OF ME THINKS WE CAN MAKE THIS RUN FASTER (via the conditonal)
       for (let i = 0; i < hoverImgs.length; i++) {
         let hoverImg = hoverImgs[i]
-        if (window.innerHeight < (top + 20 + hoverImg.offsetHeight)) {
+        if (window.innerHeight + window.scrollY < (top + 20 + hoverImg.offsetHeight)) {
           hoverImg.style.transform = "translate(0%, -100%)";
           hoverImg.style.left = (left + 15) + 'px';
           hoverImg.style.top = (top - 10) + 'px';
