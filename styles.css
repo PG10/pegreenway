@@ -81,7 +81,7 @@ body {
 }
 
 .filterSelector.active {
-  background-color: #EDEADE  ;
+  background-color: #EDEADE;
   font-family: "medium", sans-serif;
   color: black;
 }
@@ -177,7 +177,7 @@ body {
   color: black;
   font-weight: 100px;
   cursor: pointer;
-  background-color: #fafafa ; 
+  background-color: #fafafa;
 }
 
 .tab-details tr:hover {
@@ -190,13 +190,12 @@ body {
   cursor: default;
   font-family: "light", sans-serif;
   color: black;
-  background-color: #fafafa ;
+  background-color: #fafafa;
   font-weight: 900px;
-  /* border-top: grey solid 1px; */
 }
 
 .tab.active .project-text {
-  /* border-top: rgb(129, 31, 31) solid 1px; */
+  border-top: lightgrey solid 1px;
 }
 
 .project-info {
@@ -219,9 +218,6 @@ body {
 }
 
 .project-text td {
-  /* border-left: 1px solid grey; */
-  /* border-top: 1px solid grey; */
-  /* border-right: 1px solid grey; */
   padding: 20px 20px;
   line-height: 30px;
   font-family: "light", sans-serif;
@@ -232,13 +228,8 @@ body {
 .project-gallery {
   overflow-x: scroll;
   white-space: nowrap;
-    border-top: grey solid 1px;
-    border-color: #e0e0e0 ;
-
-  /* padding: 20px 20px; */
-  /* border-top: grey solid 1px; */
-  /* border-left: 1px solid grey; */
-  /* border-right: 1px solid grey; */
+  border-top: grey solid 1px;
+  border-color: #e0e0e0;
 }
 
 .project-gallery img {
