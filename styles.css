@@ -42,7 +42,6 @@ body {
 
 
 #filters {
-  /* position: absolute; */
   font-family: "Medium", sans-serif;
   width: 50%;
 }
@@ -52,7 +51,7 @@ body {
   font-family: light;
   font-weight: 1px;
   font-size: medium;
-  width: 50%;
+  width: 30%;
   text-align: right;
   padding: 0;
   margin-bottom: 20px;
@@ -60,7 +59,6 @@ body {
 }
 
 .filterSelector {
-  /* margin-top: 25px; */
   width: 60px;
   border: none;
   border-top-left-radius: 10px;
@@ -139,41 +137,59 @@ body {
   width: 100%;
 }
 
-.tab-details tr td {
+.tab-details tr {
   border-left: 1px solid grey;
   border-right: 1px solid grey;
   border-top: grey solid 1px;
+}
 
+.tab-details tr td {
   padding: 0px 10px;
   font-family: "light", sans-serif;
   color: grey;
 }
 
-.title {
+.tab-details tr .title {
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
   width: 1000px;
   transition: width 0.3s ease-in-out;
 
 }
 
-.date {
+.tab-details tr .date {
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
   width: 50px;
   transition: width 0.3s ease-in-out;
 }
 
-.type {
+.tab-details tr .type {
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
   display: 10px;
   transition: width 0.3s ease-in-out;
 }
 
-.abstract {
-  width: 1000px;
-  transition: width 0.3s ease-in-out;
+
+.active .tab-details tr .title {
+  border-right: 1px solid lightgrey;
+
+}
+
+.active .tab-details tr .date {
+  border-left: 1px solid lightgrey;
+  border-right: 1px solid lightgrey;
+}
+
+.active .tab-details tr .type {
+  border-left: 1px solid lightgrey;
 }
 
 .tab-details tr:hover td {
   color: black;
   cursor: default;
-  font-family: "light", sans-serif;
+  font-family: "medium", sans-serif;
   color: black;
   font-weight: 100px;
   cursor: pointer;
@@ -185,13 +201,15 @@ body {
 }
 
 .tab.active td {
-  color: black;
   transition: 0.1s;
   cursor: default;
   font-family: "light", sans-serif;
-  color: black;
   background-color: #fafafa;
-  font-weight: 900px;
+}
+
+.tab.active .tab-details td {
+  color: black;
+  font-family: "medium", sans-serif;
 }
 
 .tab.active .project-text {
@@ -200,7 +218,7 @@ body {
 
 .project-info {
   max-height: 0;
-  transition: max-height 0.5s ease-in-out;
+  /* transition: max-height 0.2s ease-in-out; */
   overflow: hidden;
   height: auto;
   background-color: white;
@@ -225,21 +243,42 @@ body {
   color: gray;
 }
 
+.abstract {
+  width: 1000px;
+  transition: width 0.3s ease-in-out;
+  color: grey;
+}
+
 .project-gallery {
   overflow-x: scroll;
   white-space: nowrap;
   border-top: grey solid 1px;
   border-color: #e0e0e0;
+  padding: 20px;
+  display: flex;
+  /* justify-content: space-between; */
+  gap: 15px;
 }
 
-.project-gallery img {
-  max-height: 600px;
+.project-gallery img:hover {
+  border: 1px solid grey;
+  /* border: 1px solid #EDEADE; */
+}
+
+.project-gallery .small-img {
+  height: 200px;
   border: 1px solid lightgrey;
-  margin-top: 20px;
-  margin-left: 20px;
-  margin-right: -20px;
-
+  cursor: pointer;
+  transition: height 0.1s ease-in-out;
 }
+
+.project-gallery .big-img {
+  height: 800px;
+  border: 1px solid lightgrey;
+  cursor: pointer;
+  transition: height 0.1s ease-in-out;
+}
+
 
 .show {
   display: block;
@@ -248,22 +287,32 @@ body {
 @media screen and (max-width: 1550px) {
 
   .title {
-    width: 700px;
+    max-width: 700px;
   }
 
   .abstract {
-    width: 700px;
+    max-width: 700px;
+  }
+
+  .project-gallery .big-img {
+    width: 100%;
+    height: unset;
+    max-height: 800px;
   }
 }
 
 @media screen and (max-width: 1040px) {
 
   .title {
-    width: 400px;
+    max-width: 400px;
   }
 
   .abstract {
-    width: 400px;
+    max-width: 400px;
+  }
+
+  .filterSelector {
+    width: 50px;
   }
 }
 
@@ -272,6 +321,7 @@ body {
     width: 100%;
     float: none;
     margin-bottom: 10px;
+    margin-top: 0;
     text-align: center;
   }
 
@@ -282,14 +332,20 @@ body {
   .filterSelector {
     margin-top: 0;
     width: 40px;
+    margin-bottom: 15px;
+    margin-top: 5px;
   }
 
   .title {
-    width: 250px;
+    max-width: 250px;
   }
 
   .date {
-    width: 50px;
+    max-width: 50px;
+  }
+
+  .active .tab-details tr .date {
+    border-right: 1px solid grey;
   }
 
   .type {
@@ -306,6 +362,11 @@ body {
 
   .tab:hover .hover-img {
     display: none;
+  }
+
+  .project-gallery .big-img {
+    width: unset;
+    height: 400px;
   }
 }
 
