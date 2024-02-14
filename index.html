@@ -15,6 +15,11 @@
 </head>
 
 <body>
+
+  <!--_____________________________________________________________________________________________________-->
+
+  <div id="lightbox"></div>
+
   <!--___________________________________________________________________________________________________-->
   <div class="container">
     <div class="meta-info">
@@ -28,7 +33,6 @@
         <button class="filterSelector" onclick="filterSelection('19')">19</button>
       </div>
     </div>
-
     <!--_____________________________________________________________________________________________________-->
 
     <div class="tab 23" id="wood-diagram" href="#wood-diagram">
@@ -800,12 +804,32 @@
     //From Sam Losi
 
     function scale(element) {
-      if (element.classList.contains("small-img")) {
-        element.classList.remove("small-img");
-        element.classList.add("big-img");
+      const isSmallScreen = window.matchMedia('screen and (max-width: 800px)').matches;
+      console.log(isSmallScreen);
+      if (isSmallScreen) {
+        if (element.classList.contains("small-img")) {
+          element.classList.remove("small-img");
+          element.classList.add("big-img");
+        } else {
+          element.classList.add("small-img");
+          element.classList.remove("big-img")
+
+          lightbox.style.display = 'none';
+        }
       } else {
-        element.classList.add("small-img");
-        element.classList.remove("big-img")
+        const lightbox = document.getElementById("lightbox");
+        console.log(lightbox);
+        if (element.classList.contains("small-img")) {
+          element.classList.remove("small-img");
+          element.classList.add("big-img");
+
+          lightbox.style.display = 'block';
+        } else {
+          element.classList.add("small-img");
+          element.classList.remove("big-img");
+
+          lightbox.style.display = 'none';
+        }
       }
     }
 

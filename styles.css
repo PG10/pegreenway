@@ -260,25 +260,44 @@ body {
   gap: 15px;
 }
 
-.project-gallery img:hover {
+.project-gallery .small-img:hover {
   border: 1px solid grey;
   /* border: 1px solid #EDEADE; */
 }
 
 .project-gallery .small-img {
-  height: 200px;
+  height: 650px;
   border: 1px solid lightgrey;
   cursor: pointer;
-  transition: height 0.1s ease-in-out;
+  transition: height .2s ease;
 }
 
 .project-gallery .big-img {
-  height: 800px;
+  height: auto;
+  width: auto;
   border: 1px solid lightgrey;
   cursor: pointer;
-  transition: height 0.1s ease-in-out;
+  transition: height .2s ease;
+  z-index: 100;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  max-width: 85%;
+  max-height: 85%;
 }
 
+#lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: 99;
+  background-color: rgba(255, 255, 255, 0.8);
+}
 
 .show {
   display: block;
@@ -292,12 +311,6 @@ body {
 
   .abstract {
     max-width: 700px;
-  }
-
-  .project-gallery .big-img {
-    width: 100%;
-    height: unset;
-    max-height: 800px;
   }
 }
 
@@ -341,7 +354,7 @@ body {
   }
 
   .date {
-    max-width: 50px;
+    min-width: 50px;
   }
 
   .active .tab-details tr .date {
@@ -364,9 +377,21 @@ body {
     display: none;
   }
 
+  .project-gallery .small-img {
+    height: 200px;
+    cursor: pointer;
+  }
+
   .project-gallery .big-img {
-    width: unset;
     height: 400px;
+    cursor: pointer;
+    width: unset;
+    z-index: none;
+    position: unset;
+    top: none;
+    left: none;
+    transform: none;
+    max-width: unset;
   }
 }
 
