@@ -218,7 +218,7 @@ body {
 
 .project-info {
   max-height: 0;
-  transition: max-height 0.3s ease-in-out;
+  transition: max-height 0s ease-in-out;
   overflow: hidden;
   height: auto;
   background-color: white;
