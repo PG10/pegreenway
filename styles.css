@@ -255,6 +255,19 @@ body {
   border-top: grey solid 1px;
   border-color: #e0e0e0;
   padding: 20px;
+  background-color: white;
+  display: flex;
+  /* justify-content: space-between; */
+  gap: 15px;
+}
+
+.darkgallery {
+  overflow-x: scroll;
+  white-space: nowrap;
+  border-top: grey solid 1px;
+  border-color: #e0e0e0;
+  padding: 20px;
+  background-color: black;
   display: flex;
   /* justify-content: space-between; */
   gap: 15px;
@@ -265,6 +278,11 @@ body {
   /* border: 1px solid #EDEADE; */
 }
 
+.darkgallery .small-img:hover {
+  border: 1px solid lightgrey;
+  /* border: 1px solid #EDEADE; */
+}
+
 .project-gallery .small-img {
   height: 400px;
   border: 1px solid lightgrey;
@@ -272,7 +290,30 @@ body {
   transition: height .2s ease;
 }
 
+.darkgallery .small-img {
+  height: 400px;
+  border: 1px solid grey;
+  cursor: pointer;
+  transition: height .2s ease;
+}
+
 .project-gallery .big-img {
+  height: auto;
+  width: auto;
+  border: 1px solid lightgrey;
+  cursor: pointer;
+  transition: height .2s ease;
+  z-index: 100;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  max-width: 85%;
+  max-height: 85%;
+}
+
+.darkgallery .big-img {
   height: auto;
   width: auto;
   border: 1px solid lightgrey;
@@ -383,7 +424,25 @@ body {
     cursor: pointer;
   }
 
+  .darkgallery .small-img {
+    height: 200px;
+    cursor: pointer;
+  }
+
+
   .project-gallery .big-img {
+    height: 400px;
+    cursor: pointer;
+    width: unset;
+    z-index: none;
+    position: unset;
+    top: none;
+    left: none;
+    transform: none;
+    max-width: unset;
+  }
+
+  .darkgallery .big-img {
     height: 400px;
     cursor: pointer;
     width: unset;
