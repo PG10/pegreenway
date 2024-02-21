@@ -17,7 +17,7 @@
 
   <!--_____________________________________________________________________________________________________-->
 
-  <div id="lightbox"></div>
+  <div id="lightbox"><img id="lightbox-img" onclick="scale(this)" src=""></div>
 
   <!--___________________________________________________________________________________________________-->
   <div class="container">
@@ -903,7 +903,34 @@
       window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
     }
 
-    //From Sam Losi
+    //From Sam Losi    
+
+    function removeBig(elem) {
+      enableScroll();
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightbox-img");
+      lightboxImg.style.display = 'none';
+      lightbox.style.display = 'none';
+
+      lightboxImg.src = "";
+
+      elem.classList.remove("big-img");
+    }
+
+    function addBig(elem) {
+      var bigImg = document.getElementsByClassName("big-img")[0];
+      if (bigImg != null) removeBig(bigImg);
+
+      disableScroll();
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightbox-img");
+      lightboxImg.style.display = 'block';
+      lightbox.style.display = 'block';
+
+      lightboxImg.src = elem.src;
+
+      elem.classList.add("big-img");
+    }
 
     function tabThroughLightbox(elem, dir) {
       let imgs = elem.parentNode.children;
@@ -915,20 +942,13 @@
       }
       if (dir == "right") { // +
         if (indexBig == imgCount - 1) return
+        removeBig(imgs[indexBig]);
+        addBig(imgs[indexBig + 1]);
 
-        imgs[indexBig].classList.remove("big-img");
-        imgs[indexBig].classList.add("small-img");
-
-        imgs[indexBig + 1].classList.remove("small-img");
-        imgs[indexBig + 1].classList.add("big-img");
       } else if (dir == "left") { // -
         if (indexBig == 0) return
-
-        imgs[indexBig].classList.remove("big-img");
-        imgs[indexBig].classList.add("small-img");
-
-        imgs[indexBig - 1].classList.remove("small-img");
-        imgs[indexBig - 1].classList.add("big-img");
+        removeBig(imgs[indexBig]);
+        addBig(imgs[indexBig - 1]);
       }
     }
 
@@ -937,48 +957,35 @@
       if (key == "ArrowLeft") {
         var bigImg = document.getElementsByClassName("big-img")[0];
         if (bigImg != null) tabThroughLightbox(bigImg, "left");
+
       } else if (key == "ArrowRight") {
         var bigImg = document.getElementsByClassName("big-img")[0];
         if (bigImg != null) tabThroughLightbox(bigImg, "right");
+
       } else if (key == "Escape") {
         var bigImg = document.getElementsByClassName("big-img")[0];
         if (bigImg != null) {
-          bigImg.classList.remove("big-img");
-          bigImg.classList.add("small-img");
-          const lightbox = document.getElementById("lightbox");
-          lightbox.style.display = 'none';
-          enableScroll();
+          removeBig(bigImg);
         }
       }
     });
 
     function scale(element) {
       const isSmallScreen = window.matchMedia('screen and (max-width: 800px)').matches;
-      // console.log(isSmallScreen);
-      const lightbox = document.getElementById("lightbox");
+
       if (isSmallScreen) {
         if (element.classList.contains("small-img")) {
-          element.classList.remove("small-img");
-          element.classList.add("big-img");
+          var bigImg = document.getElementsByClassName("big-img")[0];
+          if (bigImg != null) removeBig(bigImg);
+          addBig(element);
         } else {
-          element.classList.add("small-img");
-          element.classList.remove("big-img")
-
-          lightbox.style.display = 'none';
+          removeBig(element);
         }
       } else {
-        // console.log(lightbox);
         if (element.classList.contains("small-img")) {
-          element.classList.remove("small-img");
-          element.classList.add("big-img");
-          disableScroll();
-          lightbox.style.display = 'block';
+          addBig(element);
         } else {
-          element.classList.add("small-img");
-          element.classList.remove("big-img");
-          enableScroll();
-
-          lightbox.style.display = 'none';
+          removeBig(element);
         }
       }
     }
