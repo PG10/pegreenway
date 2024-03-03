@@ -348,7 +348,7 @@ body {
   min-width: 100%;
   min-height: 100%;
   background-color: rgba(255, 255, 255, 0.8);
-  
+
   display: none;
 }
 
@@ -399,23 +399,39 @@ body {
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 850px) {
   #page-title {
-    width: 100%;
-    float: none;
-    margin-bottom: 0px;
-    margin-top: 0;
-    text-align: center;
+    width: 40%;
+    /* float: none; */
+    /* margin-bottom: 0px; */
+    /* margin-top: 0; */
+    /* text-align: center; */
   }
 
   #filters {
+    width: auto;
+  }
+
+
+  .title {
+    max-width: 350px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  #page-title {
+    display: none;
+  }
+
+  #filters {
+    margin-bottom: 12px;
     width: 100%;
   }
 
   .filterSelector {
     margin-top: 0;
     width: 40px;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
     margin-top: 5px;
   }
 

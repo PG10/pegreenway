@@ -935,6 +935,7 @@ The secondary driver of the form was the roof which directly relates to the envi
     }
 
     document.addEventListener('keydown', function (event) {
+      var bigImg = document.getElementsByClassName("big-img")[0];
       const key = event.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
       if (key == "ArrowLeft") {
         var bigImg = document.getElementsByClassName("big-img")[0];
