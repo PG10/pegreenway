@@ -382,7 +382,7 @@ body {
   height: auto;
   width: auto;
   border: 1px solid lightgrey;
-  cursor: zoom-in;
+  cursor: default;
   transition: height .2s ease;
   z-index: 100;
   align-items: center;

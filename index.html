@@ -1021,33 +1021,36 @@
 
     var lightbox = document.getElementById('lightbox');
     lightbox.addEventListener('click', function (event) {
+      var img = document.getElementById("lightbox-img");
       // Check if the clicked element is the div itself (not a child element)
       if (event.target === lightbox) {
         var bigImg = document.getElementsByClassName("big-img")[0];
-        if (bigImg != null) removeBig(bigImg);
+        if (bigImg != null) {
+          removeBig(bigImg);
+          // resetStyle(img);
+        }
       }
     });
     var contain = document.getElementById("lightbox-container");
     contain.addEventListener('click', function (event) {
+      var img = document.getElementById("lightbox-img");
       // Check if the clicked element is the div itself (not a child element)
       if (event.target === contain) {
         var bigImg = document.getElementsByClassName("big-img")[0];
-        if (bigImg != null) removeBig(bigImg);
+        if (bigImg != null) {
+          removeBig(bigImg);
+          // resetStyle(img);
+        }
       }
     });
+    /*
     var img = document.getElementById("lightbox-img");
     contain.addEventListener('click', function (event) {
       let elem = event.target;
       // Check if the clicked element is the div itself (not a child element)
       if (event.target === img) {
         if (elem.style.cursor == "zoom-out") {
-          elem.style.height = "auto";
-          elem.style.cursor = "zoom-in";
-          elem.style.maxHeight = "100%";
-          elem.style.maxWidth = "100%";
-          elem.style.position = "unset";
-          elem.left = "0";
-          elem.top = "0";
+          resetStyle(elem);
         } else {
           elem.style.cursor = "zoom-out";
           elem.style.maxHeight = "unset";
@@ -1079,6 +1082,17 @@
         }
       }
     });
+
+    function resetStyle(elem) {
+      elem.style.height = "auto";
+      elem.style.cursor = "zoom-in";
+      elem.style.maxHeight = "100%";
+      elem.style.maxWidth = "100%";
+      elem.style.position = "unset";
+      elem.left = "0";
+      elem.top = "0";
+    }
+    */
 
     function getXY(e) {
       var ratioX = e.target.naturalWidth / e.target.offsetWidth;
