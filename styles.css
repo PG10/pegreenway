@@ -147,6 +147,7 @@ body {
   padding: 0px 10px;
   font-family: "light", sans-serif;
   color: grey;
+  font-size: medium;
 }
 
 .tab-details tr .title {
@@ -240,6 +241,7 @@ body {
   font-family: "light", sans-serif;
   vertical-align: top;
   color: darkgrey;
+  font-size: medium;
 }
 
 .project-text .date {
