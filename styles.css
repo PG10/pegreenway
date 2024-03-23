@@ -28,6 +28,32 @@
   src: url("fonts/letter gothic/LetterGothicStd-Bold.otf");
 }
 
+/* unvisited link */
+a:link {
+  color: #c9c5b5;
+  text-decoration: none;
+  font-weight: 100px;
+}
+
+/* visited link */
+a:visited {
+  color: #c9c5b5;
+}
+
+/* mouse over link */
+a:hover {
+  color: #edb79c;
+  font-weight: 300px;
+}
+
+/* selected link */
+a:active {
+  color: #ad7e66;
+}
+
+
+
+
 body {
   margin: 30px;
 }
