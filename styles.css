@@ -84,10 +84,10 @@ body {
 }
 
 .filterSelector {
-  width: 60px;
+  width: 40px;
   border: none;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
   outline: none;
   padding: 12px 9px;
   background-color: #f1f1f1;
