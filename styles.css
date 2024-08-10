@@ -64,7 +64,7 @@ body {
   overflow-x: hidden;
   border-bottom: solid 1px grey;
   font-weight: 100;
-  font-size: smaller;
+  font-size: 1.2vh;
 }
 
 
@@ -95,6 +95,7 @@ body {
   cursor: pointer;
   font-weight: 100;
   font-family: "Medium", sans-serif;
+  font-size: 1vh;
   color: grey;
   margin-bottom: 6px;
 }
