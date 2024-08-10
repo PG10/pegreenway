@@ -208,6 +208,7 @@ body {
 
 .active .tab-details tr .type {
   border-left: 1px solid lightgrey;
+
 }
 
 .tab-details tr:hover td {
@@ -479,6 +480,7 @@ body {
 
   .additional-description {
     display: none;
+    
   }
 }
 
