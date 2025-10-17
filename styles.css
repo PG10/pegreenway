@@ -153,15 +153,8 @@ body {
   height: 45vh;
   width: 32.71vh;
   opacity: 95%;
-  /* transition: filter 0.3s ease; */
-}
-
-.hover-img.lowres {
-  filter: blur(8px);
-}
-
-.hover-img.highres {
-  filter: none;
+  object-fit: cover;
+  background-color: #f5f5f5;
 }
 
 .tab:hover .hover-img-wrapper {
