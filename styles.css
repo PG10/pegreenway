@@ -137,22 +137,38 @@ body {
   background-color: #eeeeee;
 }
 
-.hover-img {
+.hover-img-wrapper {
   display: none;
   position: fixed;
-  height: 45vh;
-  opacity: 95%;
   border: black 1px solid;
   top: 0;
   left: 0;
   transform: translate(0%, 0%);
+  overflow: hidden;
+  line-height: 0;
 }
 
-.tab:hover .hover-img {
+.hover-img {
+  display: block;
+  height: 45vh;
+  width: 32.71vh;
+  opacity: 95%;
+  /* transition: filter 0.3s ease; */
+}
+
+.hover-img.lowres {
+  filter: blur(8px);
+}
+
+.hover-img.highres {
+  filter: none;
+}
+
+.tab:hover .hover-img-wrapper {
   display: unset;
 }
 
-.tab.active:hover .hover-img {
+.tab.active:hover .hover-img-wrapper {
   display: none;
 }
 
