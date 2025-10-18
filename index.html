@@ -1152,6 +1152,9 @@ let posX = 0;
 let posY = 0;
 let lastPosX = 0;
 let lastPosY = 0;
+let justFinishedPinching = false;
+let pinchCenterX = 0;
+let pinchCenterY = 0;
 
 var lightbox = document.getElementById('lightbox');
 var lightboxImg = document.getElementById('lightbox-img');
@@ -1195,10 +1198,12 @@ lightbox.addEventListener('touchstart', function(e) {
     touchStartY = e.touches[0].clientY;
     isPinching = false;
     isPanning = false;
+    justFinishedPinching = false;
   } else if (e.touches.length === 2) {
     // Two fingers - start pinch
     isPinching = true;
     isPanning = false;
+    justFinishedPinching = false;
     initialDistance = getDistance(e.touches[0], e.touches[1]);
     lastScale = currentScale;
     
@@ -1207,6 +1212,13 @@ lightbox.addEventListener('touchstart', function(e) {
     touchStartY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
     lastPosX = posX;
     lastPosY = posY;
+    
+    // Calculate zoom origin relative to image center
+    const rect = lightboxImg.getBoundingClientRect();
+    const imgCenterX = rect.left + rect.width / 2;
+    const imgCenterY = rect.top + rect.height / 2;
+    pinchCenterX = touchStartX - imgCenterX;
+    pinchCenterY = touchStartY - imgCenterY;
   } else if (e.touches.length === 1 && currentScale > 1.1) {
     // Single touch while zoomed - prepare for pan
     isPanning = true;
@@ -1225,7 +1237,7 @@ lightbox.addEventListener('touchmove', function(e) {
     // Calculate zoom
     const currentDistance = getDistance(e.touches[0], e.touches[1]);
     const scale = (currentDistance / initialDistance) * lastScale;
-    currentScale = Math.min(Math.max(0.5, scale), 4);
+    const newScale = Math.min(Math.max(0.5, scale), 4);
     
     // Calculate pan based on center point movement
     const currentCenterX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
@@ -1233,8 +1245,12 @@ lightbox.addEventListener('touchmove', function(e) {
     const deltaX = currentCenterX - touchStartX;
     const deltaY = currentCenterY - touchStartY;
     
-    posX = lastPosX + deltaX;
-    posY = lastPosY + deltaY;
+    // Apply zoom origin offset (zoom into the pinch point, not center)
+    const scaleChange = newScale - currentScale;
+    posX = lastPosX + deltaX - (pinchCenterX * scaleChange);
+    posY = lastPosY + deltaY - (pinchCenterY * scaleChange);
+    
+    currentScale = newScale;
     
     lightboxImg.style.transition = 'none';
     updateTransform();
@@ -1253,14 +1269,19 @@ lightbox.addEventListener('touchmove', function(e) {
 lightbox.addEventListener('touchend', function(e) {
   if (isPinching) {
     isPinching = false;
+    justFinishedPinching = true;
     // Always reset zoom when fingers are released
     resetZoom();
+    // Clear the flag after a longer delay to prevent accidental swipes
+    setTimeout(() => {
+      justFinishedPinching = false;
+    }, 300);
   } else if (isPanning) {
     isPanning = false;
     lastPosX = posX;
     lastPosY = posY;
-  } else if (e.changedTouches.length === 1 && currentScale <= 1.1) {
-    // Only handle swipe if not zoomed
+  } else if (e.changedTouches.length === 1 && currentScale <= 1.1 && !justFinishedPinching) {
+    // Only handle swipe if not zoomed and didn't just finish pinching
     touchEndX = e.changedTouches[0].clientX;
     handleSwipe();
   }
