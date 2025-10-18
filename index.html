@@ -1142,20 +1142,19 @@ document.addEventListener('keydown', function (event) {
 // MOBILE ENHANCEMENT: Instagram-style pinch-to-zoom and swipe navigation
 let touchStartX = 0;
 let touchEndX = 0;
+let touchStartY = 0;
 let initialDistance = 0;
 let currentScale = 1;
 let isPinching = false;
+let isPanning = false;
 let lastScale = 1;
 let posX = 0;
 let posY = 0;
 let lastPosX = 0;
 let lastPosY = 0;
-let centerX = 0;
-let centerY = 0;
 
 var lightbox = document.getElementById('lightbox');
 var lightboxImg = document.getElementById('lightbox-img');
-var lightboxContainer = document.getElementById('lightbox-container');
 
 lightbox.addEventListener('click', function (event) {
   var img = document.getElementById("lightbox-img");
@@ -1171,19 +1170,17 @@ lightbox.addEventListener('click', function (event) {
 // Double-tap to zoom
 let lastTap = 0;
 lightboxImg.addEventListener('touchend', function(e) {
+  if (isPanning || isPinching) return;
+  
   const currentTime = new Date().getTime();
   const tapLength = currentTime - lastTap;
   if (tapLength < 300 && tapLength > 0) {
     // Double tap detected
-    if (currentScale > 1) {
+    if (currentScale > 1.1) {
       resetZoom();
     } else {
-      // Zoom to 2x at tap location
-      const touch = e.changedTouches[0];
-      const rect = lightboxImg.getBoundingClientRect();
-      centerX = touch.clientX - rect.left - rect.width / 2;
-      centerY = touch.clientY - rect.top - rect.height / 2;
-      currentScale = 2;
+      currentScale = 2.5;
+      lightboxImg.style.transition = 'transform 0.3s ease';
       updateTransform();
     }
     e.preventDefault();
@@ -1192,20 +1189,22 @@ lightboxImg.addEventListener('touchend', function(e) {
 });
 
 lightbox.addEventListener('touchstart', function(e) {
-  if (e.touches.length === 1 && currentScale === 1) {
+  if (e.touches.length === 1 && currentScale <= 1.1) {
+    // Single touch, not zoomed - prepare for swipe
     touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
     isPinching = false;
+    isPanning = false;
   } else if (e.touches.length === 2) {
+    // Two fingers - start pinch
     isPinching = true;
+    isPanning = false;
     initialDistance = getDistance(e.touches[0], e.touches[1]);
     lastScale = currentScale;
-    
-    // Calculate center point between two fingers
-    const rect = lightboxImg.getBoundingClientRect();
-    centerX = ((e.touches[0].clientX + e.touches[1].clientX) / 2) - rect.left - rect.width / 2;
-    centerY = ((e.touches[0].clientY + e.touches[1].clientY) / 2) - rect.top - rect.height / 2;
-  } else if (e.touches.length === 1 && currentScale > 1) {
-    // Pan start
+  } else if (e.touches.length === 1 && currentScale > 1.1) {
+    // Single touch while zoomed - prepare for pan
+    isPanning = true;
+    isPinching = false;
     lastPosX = posX;
     lastPosY = posY;
     touchStartX = e.touches[0].clientX;
@@ -1218,17 +1217,18 @@ lightbox.addEventListener('touchmove', function(e) {
     e.preventDefault();
     const currentDistance = getDistance(e.touches[0], e.touches[1]);
     const scale = (currentDistance / initialDistance) * lastScale;
-    currentScale = Math.min(Math.max(1, scale), 4); // Limit zoom between 1x and 4x
+    currentScale = Math.min(Math.max(0.5, scale), 4);
     
+    lightboxImg.style.transition = 'none';
     updateTransform();
-  } else if (e.touches.length === 1 && currentScale > 1) {
-    // Pan while zoomed
+  } else if (e.touches.length === 1 && isPanning && currentScale > 1.1) {
     e.preventDefault();
     const deltaX = e.touches[0].clientX - touchStartX;
     const deltaY = e.touches[0].clientY - touchStartY;
     posX = lastPosX + deltaX;
     posY = lastPosY + deltaY;
     
+    lightboxImg.style.transition = 'none';
     updateTransform();
   }
 }, { passive: false });
@@ -1236,13 +1236,14 @@ lightbox.addEventListener('touchmove', function(e) {
 lightbox.addEventListener('touchend', function(e) {
   if (isPinching) {
     isPinching = false;
-    initialDistance = 0;
-    
-    // Smooth snap back if zoomed out
-    if (currentScale < 1) {
-      resetZoom();
-    }
-  } else if (e.changedTouches.length === 1 && currentScale === 1) {
+    // Always reset zoom when fingers are released
+    resetZoom();
+  } else if (isPanning) {
+    isPanning = false;
+    lastPosX = posX;
+    lastPosY = posY;
+  } else if (e.changedTouches.length === 1 && currentScale <= 1.1) {
+    // Only handle swipe if not zoomed
     touchEndX = e.changedTouches[0].clientX;
     handleSwipe();
   }
@@ -1255,13 +1256,11 @@ function getDistance(touch1, touch2) {
 }
 
 function updateTransform() {
-  const transform = `translate(${posX}px, ${posY}px) scale(${currentScale})`;
-  lightboxImg.style.transform = transform;
-  lightboxImg.style.transition = 'none';
+  lightboxImg.style.transform = `translate(${posX}px, ${posY}px) scale(${currentScale})`;
 }
 
 function handleSwipe() {
-  if (isPinching || currentScale > 1) return;
+  if (isPinching || isPanning || currentScale > 1.1) return;
   
   const bigImg = document.getElementsByClassName("big-img")[0];
   if (!bigImg) return;
@@ -1285,10 +1284,11 @@ function resetZoom() {
   posY = 0;
   lastPosX = 0;
   lastPosY = 0;
-  centerX = 0;
-  centerY = 0;
+  lastScale = 1;
+  isPinching = false;
+  isPanning = false;
+  lightboxImg.style.transition = 'transform 0.25s ease-out';
   lightboxImg.style.transform = 'translate(0, 0) scale(1)';
-  lightboxImg.style.transition = 'transform 0.3s ease';
 }
 
 var contain = document.getElementById("lightbox-container");
