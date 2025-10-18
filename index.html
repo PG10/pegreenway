@@ -1234,21 +1234,23 @@ lightbox.addEventListener('touchmove', function(e) {
   if (e.touches.length === 2 && isPinching) {
     e.preventDefault();
     
-    // Calculate zoom
+    // Calculate new zoom level
     const currentDistance = getDistance(e.touches[0], e.touches[1]);
-    const scale = (currentDistance / initialDistance) * lastScale;
-    const newScale = Math.min(Math.max(0.5, scale), 4);
+    const newScale = Math.min(Math.max(0.5, (currentDistance / initialDistance) * lastScale), 4);
+    const scaleDelta = newScale - lastScale;
     
-    // Calculate pan based on center point movement
+    // Calculate current center point
     const currentCenterX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
     const currentCenterY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-    const deltaX = currentCenterX - touchStartX;
-    const deltaY = currentCenterY - touchStartY;
     
-    // Apply zoom origin offset (zoom into the pinch point, not center)
-    const scaleChange = newScale - currentScale;
-    posX = lastPosX + deltaX - (pinchCenterX * scaleChange);
-    posY = lastPosY + deltaY - (pinchCenterY * scaleChange);
+    // Pan based on finger movement
+    const panDeltaX = currentCenterX - touchStartX;
+    const panDeltaY = currentCenterY - touchStartY;
+    
+    // Adjust position to zoom into the pinch point
+    // The pinch center should stay fixed on screen as we zoom
+    posX = lastPosX + panDeltaX - (pinchCenterX * scaleDelta);
+    posY = lastPosY + panDeltaY - (pinchCenterY * scaleDelta);
     
     currentScale = newScale;
     
