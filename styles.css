@@ -567,4 +567,13 @@ body {
   } */
 }
 
+/* NEW: Mobile filter button sizing to fit all in one row */
+@media screen and (max-width: 480px) {
+  .filterSelector {
+    width: 34px;
+    padding: 10px 7px;
+    font-size: 0.7em;
+  }
+}
+
 /* @media (any-pointer: coarse) {} */
