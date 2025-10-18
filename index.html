@@ -1026,6 +1026,8 @@
 
   <script>
 
+    // REPLACE THE ENTIRE <script> SECTION WITH THIS CODE
+
     //From https://stackoverflow.com/questions/4770025/how-to-disable-scrolling-temporarily
 
     // left: 37, up: 38, right: 39, down: 40,
@@ -1146,10 +1148,10 @@
         var bigImg = document.getElementsByClassName("big-img")[0];
         if (bigImg != null) {
           removeBig(bigImg);
-          // resetStyle(img);
         }
       }
     });
+
     var contain = document.getElementById("lightbox-container");
     contain.addEventListener('click', function (event) {
       var img = document.getElementById("lightbox-img");
@@ -1158,60 +1160,9 @@
         var bigImg = document.getElementsByClassName("big-img")[0];
         if (bigImg != null) {
           removeBig(bigImg);
-          // resetStyle(img);
         }
       }
     });
-    /*
-    var img = document.getElementById("lightbox-img");
-    contain.addEventListener('click', function (event) {
-      let elem = event.target;
-      // Check if the clicked element is the div itself (not a child element)
-      if (event.target === img) {
-        if (elem.style.cursor == "zoom-out") {
-          resetStyle(elem);
-        } else {
-          elem.style.cursor = "zoom-out";
-          elem.style.maxHeight = "unset";
-          elem.style.maxWidth = "unset";
-          elem.style.position = "absolute";
-
-
-          // let zoomF = 1;
-          elem.style.height = "200%";
-          let XY = getXY(event);
-          let x = XY[0];
-          let y = XY[1];
-          let w = elem.parentNode.offsetWidth;
-          let h = elem.parentNode.offsetHeight;
-
-          let xCen = (-x * 2) + (w / 2);
-          let yCen = (-y * 2) + (h / 2);
-
-
-          // if (xCen > 0) xCen = 0;
-          // else if (xCen < elem.offsetWidth) xCen = _;
-          // if (yCen > 0) yCen = 0;
-          // else if (y > (h * zoomF) - h / 2) y = (h * zoomF) - h / 2;
-
-          console.log(xCen, yCen);
-          console.log(elem.offsetWidth, elem.offsetHeight)
-          elem.style.left = xCen + "px";
-          elem.style.top = yCen + "px";
-        }
-      }
-    });
-
-    function resetStyle(elem) {
-      elem.style.height = "auto";
-      elem.style.cursor = "zoom-in";
-      elem.style.maxHeight = "100%";
-      elem.style.maxWidth = "100%";
-      elem.style.position = "unset";
-      elem.left = "0";
-      elem.top = "0";
-    }
-    */
 
     function getXY(e) {
       var ratioX = e.target.naturalWidth / e.target.offsetWidth;
@@ -1220,15 +1171,10 @@
       var imgX = e.x + window.pageXOffset - e.target.parentNode.getBoundingClientRect().left;
       var imgY = e.y + window.pageYOffset - e.target.parentNode.getBoundingClientRect().top;
 
-      // var imgX = Math.floor(domX * ratioX);
-      // var imgY = Math.floor(domY * ratioY);
-
       console.log(imgX, imgY);
 
       return [imgX, imgY];
     }
-    // function remove(element) {
-    // }
 
     function scale(element) {
       const isSmallScreen = window.matchMedia('screen and (max-width: 800px)').matches;
@@ -1309,7 +1255,8 @@
       });
     }
 
-    // Lazy loading - load images on hover
+    // PERFORMANCE OPTIMIZED: Intersection Observer for lazy loading
+    // Load images when they enter the viewport (before hover needed)
     function lazyLoadImage(img) {
       const highResSrc = img.getAttribute('data-src');
       
@@ -1318,43 +1265,73 @@
         img.src = highResSrc;
       }
     }
-    
-    // Attach hover listeners to tabs for lazy loading
+
+    // Use Intersection Observer for automatic loading as you scroll
     document.addEventListener('DOMContentLoaded', function() {
-      const tabs = document.querySelectorAll('.tab');
-      
-      tabs.forEach(tab => {
-        tab.addEventListener('mouseenter', function() {
-          const img = tab.querySelector('.hover-img');
-          if (img) {
-            lazyLoadImage(img);
-          }
+      // Check if browser supports Intersection Observer
+      if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const img = entry.target;
+              lazyLoadImage(img);
+              imageObserver.unobserve(img); // Stop observing once loaded
+            }
+          });
+        }, {
+          rootMargin: '100px' // Start loading 100px before entering viewport
         });
+
+        // Observe all lazy-loaded hover images
+        document.querySelectorAll('.hover-img[data-src]').forEach(img => {
+          imageObserver.observe(img);
+        });
+      } else {
+        // Fallback for older browsers - load on hover
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+          tab.addEventListener('mouseenter', function() {
+            const img = tab.querySelector('.hover-img');
+            if (img) {
+              lazyLoadImage(img);
+            }
+          });
+        });
+      }
+    });
+
+    // PERFORMANCE OPTIMIZED: Throttled mousemove with requestAnimationFrame
+    // Sam edited code from:
+    // https://levelup.gitconnected.com/use-javascript-to-make-an-element-follow-the-cursor-3872307778b4
+    let rafId = null;
+    document.addEventListener('mousemove', function (e) {
+      // Skip if already processing a frame
+      if (rafId) return;
+      
+      rafId = requestAnimationFrame(() => {
+        let hoverImgWrappers = document.getElementsByClassName('hover-img-wrapper');
+        let left = e.clientX;
+        let top = e.clientY;
+        
+        for (let i = 0; i < hoverImgWrappers.length; i++) {
+          let wrapper = hoverImgWrappers[i];
+          
+          // Check if wrapper should follow cursor (only when hovering parent tab)
+          if (window.innerHeight < (top + 20 + wrapper.offsetHeight)) {
+            wrapper.style.transform = "translate(0%, -100%)";
+            wrapper.style.left = (left + 15) + 'px';
+            wrapper.style.top = (top - 10) + 'px';
+          } else {
+            wrapper.style.transform = "translate(0%, 0%)";
+            wrapper.style.left = (left + 15) + 'px';
+            wrapper.style.top = (top + 20) + 'px';
+          }
+        }
+        
+        rafId = null; // Allow next frame
       });
     });
 
-    // Sam edited code from:
-    // https://levelup.gitconnected.com/use-javascript-to-make-an-element-follow-the-cursor-3872307778b4
-    document.addEventListener('mousemove', function (e) {
-      let body = document.querySelector('body');
-      let hoverImgWrappers = document.getElementsByClassName('hover-img-wrapper');
-      let left = e.clientX;
-      let top = e.clientY;
-      //PART OF ME THINKS WE CAN MAKE THIS RUN FASTER (via the conditonal)
-      for (let i = 0; i < hoverImgWrappers.length; i++) {
-        let wrapper = hoverImgWrappers[i]
-        // console.log(window.innerHeight)
-        if (window.innerHeight < (top + 20 + wrapper.offsetHeight)) {
-          wrapper.style.transform = "translate(0%, -100%)";
-          wrapper.style.left = (left + 15) + 'px';
-          wrapper.style.top = (top - 10) + 'px';
-        } else {
-          wrapper.style.transform = "translate(0%, 0%)";
-          wrapper.style.left = (left + 15) + 'px';
-          wrapper.style.top = (top + 20) + 'px';
-        }
-      }
-    });
   </script>
 
 </body>
