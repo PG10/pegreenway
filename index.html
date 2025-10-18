@@ -1201,6 +1201,12 @@ lightbox.addEventListener('touchstart', function(e) {
     isPanning = false;
     initialDistance = getDistance(e.touches[0], e.touches[1]);
     lastScale = currentScale;
+    
+    // Track initial center point for panning
+    touchStartX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+    touchStartY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+    lastPosX = posX;
+    lastPosY = posY;
   } else if (e.touches.length === 1 && currentScale > 1.1) {
     // Single touch while zoomed - prepare for pan
     isPanning = true;
@@ -1215,9 +1221,20 @@ lightbox.addEventListener('touchstart', function(e) {
 lightbox.addEventListener('touchmove', function(e) {
   if (e.touches.length === 2 && isPinching) {
     e.preventDefault();
+    
+    // Calculate zoom
     const currentDistance = getDistance(e.touches[0], e.touches[1]);
     const scale = (currentDistance / initialDistance) * lastScale;
     currentScale = Math.min(Math.max(0.5, scale), 4);
+    
+    // Calculate pan based on center point movement
+    const currentCenterX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+    const currentCenterY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+    const deltaX = currentCenterX - touchStartX;
+    const deltaY = currentCenterY - touchStartY;
+    
+    posX = lastPosX + deltaX;
+    posY = lastPosY + deltaY;
     
     lightboxImg.style.transition = 'none';
     updateTransform();
