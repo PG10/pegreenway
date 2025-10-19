@@ -1,18 +1,11 @@
-# Temporary change to force action run
-name: Image Optimization to AVIF
-# ... rest of file ...
-
 name: Image Optimization to AVIF
 
 on:
   push:
     branches:
       - main  # Or master, depending on your main branch name
-    paths:
-      - 'img/**.jpg'   # CORRECTED
-      - 'img/**.jpeg'  # CORRECTED
-      - 'img/**.png'   # CORRECTED
-      - 'img/**.webp'  # CORRECTED
+    # REMOVED PATHS SECTION: This ensures the action runs on ANY push to main, 
+    # guaranteeing images get converted even when they are in subdirectories.
 
 jobs:
   optimize_images:
@@ -33,9 +26,11 @@ jobs:
       - name: Find and Optimize Images
         id: optimize
         run: |
-          # The find command recursively searches your 'img' folder
+          echo "Starting recursive search in img/ for JPEGs and PNGs..."
+          
+          # This command searches 'img' and ALL subdirectories for files ending in .jpg, .jpeg, or .png
           find img -type f \( -iname \*.jpg -o -iname \*.jpeg -o -iname \*.png \) | while read IMG_FILE; do
-            echo "Optimizing $IMG_FILE to AVIF..."
+            echo "Optimizing found file: $IMG_FILE to AVIF..."
             # Replace the old file extension with .avif
             AVIF_FILE="${IMG_FILE%.*}.avif"
             
@@ -44,8 +39,9 @@ jobs:
             
             # OPTIONAL: Remove the old unoptimized file to keep the repo clean
             rm "$IMG_FILE"
-            echo "Converted to $AVIF_FILE"
+            echo "Converted and deleted original."
           done
+          echo "Optimization complete."
         env:
           # Increase memory limit for Squoosh, which can be memory-intensive
           NODE_OPTIONS: --max-old-space-size=4096
@@ -53,11 +49,7 @@ jobs:
       - name: Commit Optimized Images
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'Auto: Convert images to AVIF via GitHub Action'
+          commit_message: 'Auto: Convert images to AVIF via GitHub Action (Recursive)'
           branch: main
-          # Add the AVIF files and remove the old files from the commit
-          files: |
-            img/**/*.avif  # CORRECTED
-            img/**/*.jpg
-            img/**/*.jpeg
-            img/**/*.png
+          # Use recursive globbing to capture AVIF files from ALL subfolders
+          files: 'img/**/*'
