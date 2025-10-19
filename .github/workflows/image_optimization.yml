@@ -3,10 +3,12 @@ name: Image Optimization to AVIF
 on:
   push:
     branches:
-      - main  # Or master, depending on your main branch name
-    # REMOVED PATHS SECTION: This ensures the action runs on ANY push to main, 
-    # guaranteeing images get converted even when they are in subdirectories.
+      - main
+  
+  # ADD THIS BLOCK TO ENABLE MANUAL RUNS
+  workflow_dispatch:
 
+  
 jobs:
   optimize_images:
     runs-on: ubuntu-latest
