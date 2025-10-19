@@ -5,7 +5,7 @@ on:
     branches:
       - main
   
-  # Enables manual running from the GitHub Actions tab (Run workflow button)
+  # Enables manual running from the GitHub Actions tab
   workflow_dispatch: 
 
 jobs:
@@ -38,7 +38,6 @@ jobs:
             AVIF_FILE="${IMG_FILE%.*}.avif"
             
             # 2. Run Squoosh (creates file.avif next to file.jpg)
-            # The full path is passed safely via "$IMG_FILE"
             npx @squoosh/cli --avif '{"quality":75,"speed":6}' "$IMG_FILE"
             
             # 3. Rename/Move the Squoosh output file to the final destination
@@ -59,7 +58,7 @@ jobs:
       - name: Commit Optimized Images
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'Auto: Convert images to AVIF via GitHub Action (Final Robust Fix)'
+          commit_message: 'Auto: Convert images to AVIF via GitHub Action (Final Commit Fix)'
           branch: main
-          # Use recursive globbing to capture all files in the 'img' directory
-          files: 'img/**/*'
+          # FIX: Explicitly target the directory to force commit of new/deleted files
+          files: 'img'
