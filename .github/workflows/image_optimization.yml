@@ -29,26 +29,28 @@ jobs:
         run: |
           echo "Starting recursive search in img/ for JPEGs and PNGs..."
           
-          # This command searches 'img' and ALL subdirectories for files ending in .jpg, .jpeg, or .png
-          find img -type f \( -iname \*.jpg -o -iname \*.jpeg -o -iname \*.png \) | while read IMG_FILE; do
-            echo "Optimizing found file: $IMG_FILE to AVIF..."
+          # Use find with -exec sh -c for maximum path safety (handles spaces/special chars)
+          find img -type f \( -iname \*.jpg -o -iname \*.jpeg -o -iname \*.png \) -exec sh -c '
+            IMG_FILE="$1"
+            echo "Optimizing found file: $IMG_FILE"
             
             # 1. Define the final target path for the AVIF file
             AVIF_FILE="${IMG_FILE%.*}.avif"
             
-            # 2. Run Squoosh to create the new AVIF file
-            # Squoosh CLI writes the output next to the input file, e.g., creates 'image.avif' next to 'image.jpg'
+            # 2. Run Squoosh (creates file.avif next to file.jpg)
+            # The full path is passed safely via "$IMG_FILE"
             npx @squoosh/cli --avif '{"quality":75,"speed":6}' "$IMG_FILE"
             
             # 3. Rename/Move the Squoosh output file to the final destination
             SQUOOSH_OUTPUT="${IMG_FILE%.*}.avif"
-            mv "$SQUOOSH_OUTPUT" "$AVIF_FILE"
+            mv -f "$SQUOOSH_OUTPUT" "$AVIF_FILE"
             
             # 4. Remove the old unoptimized file
-            rm "$IMG_FILE"
+            rm -f "$IMG_FILE"
             
             echo "Converted and deleted original."
-          done
+          ' sh {} \;
+          
           echo "Optimization complete."
         env:
           # Increase memory limit for Squoosh, which can be memory-intensive
@@ -57,7 +59,7 @@ jobs:
       - name: Commit Optimized Images
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'Auto: Convert images to AVIF via GitHub Action (Recursive)'
+          commit_message: 'Auto: Convert images to AVIF via GitHub Action (Final Robust Fix)'
           branch: main
           # Use recursive globbing to capture all files in the 'img' directory
           files: 'img/**/*'
