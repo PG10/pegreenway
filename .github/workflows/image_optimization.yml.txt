@@ -1,3 +1,7 @@
+# Temporary change to force action run
+name: Image Optimization to AVIF
+# ... rest of file ...
+
 name: Image Optimization to AVIF
 
 on:
