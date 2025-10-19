@@ -978,31 +978,30 @@
   </div>
 
   <script>
-// ORIGINAL SCRIPT + MOBILE ENHANCEMENTS
+// ORIGINAL SCRIPT + MOBILE ENHANCEMENTS + DESKTOP KEYBOARD NAVIGATION
 
-//From https://stackoverflow.com/questions/4770025/how-to-disable-scrolling-temporarily
-
+// From https://stackoverflow.com/questions/4770025/how-to-disable-scrolling-temporarily
 // left: 37, up: 38, right: 39, down: 40,
 // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
 var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
 
 function preventDefault(e) {
-  e.preventDefault();
+    e.preventDefault();
 }
 
 function preventDefaultForScrollKeys(e) {
-  if (keys[e.keyCode]) {
-    preventDefault(e);
-    return false;
-  }
+    if (keys[e.keyCode]) {
+        preventDefault(e);
+        return false;
+    }
 }
 
 // modern Chrome requires { passive: false } when adding event
 var supportsPassive = false;
 try {
-  window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
-    get: function () { supportsPassive = true; }
-  }));
+    window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
+        get: function () { supportsPassive = true; }
+    }));
 } catch (e) { }
 
 var wheelOpt = supportsPassive ? { passive: false } : false;
@@ -1010,87 +1009,136 @@ var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewh
 
 // call this to Disable
 function disableScroll() {
-  window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
-  window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
-  window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
-  window.addEventListener('keydown', preventDefaultForScrollKeys, false);
+    window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
+    window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+    window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
+    window.addEventListener('keydown', preventDefaultForScrollKeys, false);
 }
 
 // call this to Enable
 function enableScroll() {
-  window.removeEventListener('DOMMouseScroll', preventDefault, false);
-  window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
-  window.removeEventListener('touchmove', preventDefault, wheelOpt);
-  window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
+    window.removeEventListener('DOMMouseScroll', preventDefault, false);
+    window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
+    window.removeEventListener('touchmove', preventDefault, wheelOpt);
+    window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
 }
 
-//From Sam Losi    
-
+// From Sam Losi    
 function removeBig(elem) {
-  enableScroll();
-  const lightbox = document.getElementById("lightbox");
-  const lightboxImg = document.getElementById("lightbox-img");
-  lightboxImg.style.display = 'none';
-  lightbox.style.display = 'none';
+    enableScroll();
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    lightboxImg.style.display = 'none';
+    lightbox.style.display = 'none';
 
-  lightboxImg.src = "";
+    lightboxImg.src = "";
 
-  elem.classList.remove("big-img");
+    elem.classList.remove("big-img");
 }
 
 function addBig(elem) {
-  var bigImg = document.getElementsByClassName("big-img")[0];
-  if (bigImg != null) removeBig(bigImg);
+    var bigImg = document.getElementsByClassName("big-img")[0];
+    if (bigImg != null) removeBig(bigImg);
 
-  disableScroll();
-  const lightbox = document.getElementById("lightbox");
-  const lightboxImg = document.getElementById("lightbox-img");
-  lightboxImg.style.display = 'block';
-  lightbox.style.display = 'block';
+    disableScroll();
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    lightboxImg.style.display = 'block';
+    lightbox.style.display = 'block';
 
-  lightboxImg.src = elem.src;
+    lightboxImg.src = elem.src;
 
-  elem.classList.add("big-img");
+    elem.classList.add("big-img");
 }
 
 function tabThroughLightbox(elem, dir) {
-  let imgs = elem.parentNode.children;
-  let imgCount = imgs.length
-  let indexBig;
-  for (let i = 0; i < imgCount; i++) {
-    img = imgs[i];
-    if (img.classList.contains("big-img")) indexBig = i;
-  }
-  if (dir == "right") { // +
-    if (indexBig == imgCount - 1) return
-    removeBig(imgs[indexBig]);
-    addBig(imgs[indexBig + 1]);
+    let imgs = elem.parentNode.children;
+    let imgCount = imgs.length
+    let indexBig;
+    for (let i = 0; i < imgCount; i++) {
+        img = imgs[i];
+        if (img.classList.contains("big-img")) indexBig = i;
+    }
+    if (dir == "right") { // +
+        if (indexBig == imgCount - 1) return
+        removeBig(imgs[indexBig]);
+        addBig(imgs[indexBig + 1]);
 
-  } else if (dir == "left") { // -
-    if (indexBig == 0) return
-    removeBig(imgs[indexBig]);
-    addBig(imgs[indexBig - 1]);
-  }
+    } else if (dir == "left") { // -
+        if (indexBig == 0) return
+        removeBig(imgs[indexBig]);
+        addBig(imgs[indexBig - 1]);
+    }
 }
 
+// ----------------------------------------------------------------------
+// NEW DESKTOP KEYBOARD NAVIGATION HANDLER 
+// ----------------------------------------------------------------------
 document.addEventListener('keydown', function (event) {
-  var bigImg = document.getElementsByClassName("big-img")[0];
-  const key = event.key; // "ArrowRight", "ArrowLeft", "ArrowUp", or "ArrowDown"
-  if (key == "ArrowLeft") {
+    const isImageScaled = document.getElementById('lightbox').style.display === 'block';
+    // Find the currently open project (has 'active' class)
+    const isProjectOpenTab = document.querySelector('.tab.active');
+    
+    // Check if an image is scaled using the old method (used by your original code)
     var bigImg = document.getElementsByClassName("big-img")[0];
-    if (bigImg != null) tabThroughLightbox(bigImg, "left");
 
-  } else if (key == "ArrowRight") {
-    var bigImg = document.getElementsByClassName("big-img")[0];
-    if (bigImg != null) tabThroughLightbox(bigImg, "right");
+    // 1. ARROW LEFT/RIGHT (Image Navigation)
+    if (event.key == "ArrowLeft") {
+        if (bigImg != null) tabThroughLightbox(bigImg, "left");
+        resetZoom();
 
-  } else if (key == "Escape") {
-    var bigImg = document.getElementsByClassName("big-img")[0];
-    if (bigImg != null) {
-      removeBig(bigImg);
+    } else if (event.key == "ArrowRight") {
+        if (bigImg != null) tabThroughLightbox(bigImg, "right");
+        resetZoom();
+
+    } 
+    
+    // 2. ESCAPE KEY (Closes image OR project)
+    else if (event.key === 'Escape') {
+        if (isImageScaled || bigImg != null) {
+            // Close the currently scaled image (lightbox)
+            if (bigImg != null) removeBig(bigImg);
+            resetZoom();
+        } else if (isProjectOpenTab) {
+            // Close the currently open project by removing the 'active' class
+            w3RemoveClass(isProjectOpenTab, "active");
+        }
+    } 
+    
+    // 3. ARROW UP/DOWN (Project Navigation - ONLY works when a project is open)
+    else if (isProjectOpenTab && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
+        // PREVENTS PAGE SCROLLING when using Up/Down to switch projects
+        event.preventDefault(); 
+
+        let currentTab = isProjectOpenTab;
+        let targetTab;
+
+        if (event.key === 'ArrowDown') {
+            targetTab = currentTab.nextElementSibling;
+            // Find the next element with class 'tab' (skips non-project containers)
+            while (targetTab && !targetTab.classList.contains('tab')) {
+                targetTab = targetTab.nextElementSibling;
+            }
+        } else if (event.key === 'ArrowUp') {
+            targetTab = currentTab.previousElementSibling;
+            // Find the previous element with class 'tab'
+            while (targetTab && !targetTab.classList.contains('tab')) {
+                targetTab = targetTab.previousElementSibling;
+            }
+        }
+
+        if (targetTab && targetTab.classList.contains('tab')) {
+            // Close the current project
+            w3RemoveClass(currentTab, "active");
+            
+            // Open the new project (WITHOUT scrolling)
+            w3AddClass(targetTab, "active");
+            
+            // NOTE: The `scrollIntoView` command has been removed here to stop the page from snapping.
+        }
     }
-  }
 });
+// ----------------------------------------------------------------------
 
 // MOBILE ENHANCEMENT: Instagram-style pinch-to-zoom and swipe navigation
 let touchStartX = 0;
@@ -1113,325 +1161,325 @@ var lightbox = document.getElementById('lightbox');
 var lightboxImg = document.getElementById('lightbox-img');
 
 lightbox.addEventListener('click', function (event) {
-  var img = document.getElementById("lightbox-img");
-  if (event.target === lightbox) {
-    var bigImg = document.getElementsByClassName("big-img")[0];
-    if (bigImg != null) {
-      removeBig(bigImg);
-      resetZoom();
+    var img = document.getElementById("lightbox-img");
+    if (event.target === lightbox) {
+        var bigImg = document.getElementsByClassName("big-img")[0];
+        if (bigImg != null) {
+            removeBig(bigImg);
+            resetZoom();
+        }
     }
-  }
 });
 
 // Double-tap to zoom
 let lastTap = 0;
 lightboxImg.addEventListener('touchend', function(e) {
-  if (isPanning || isPinching) return;
-  
-  const currentTime = new Date().getTime();
-  const tapLength = currentTime - lastTap;
-  if (tapLength < 300 && tapLength > 0) {
-    // Double tap detected
-    if (currentScale > 1.1) {
-      resetZoom();
-    } else {
-      currentScale = 2.5;
-      lightboxImg.style.transition = 'transform 0.3s ease';
-      updateTransform();
+    if (isPanning || isPinching) return;
+    
+    const currentTime = new Date().getTime();
+    const tapLength = currentTime - lastTap;
+    if (tapLength < 300 && tapLength > 0) {
+        // Double tap detected
+        if (currentScale > 1.1) {
+            resetZoom();
+        } else {
+            currentScale = 2.5;
+            lightboxImg.style.transition = 'transform 0.3s ease';
+            updateTransform();
+        }
+        e.preventDefault();
     }
-    e.preventDefault();
-  }
-  lastTap = currentTime;
+    lastTap = currentTime;
 });
 
 lightbox.addEventListener('touchstart', function(e) {
-  if (e.touches.length === 1 && currentScale <= 1.1) {
-    // Single touch, not zoomed - prepare for swipe
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-    isPinching = false;
-    isPanning = false;
-    justFinishedPinching = false;
-  } else if (e.touches.length === 2) {
-    // Two fingers - start pinch
-    isPinching = true;
-    isPanning = false;
-    justFinishedPinching = false;
-    initialDistance = getDistance(e.touches[0], e.touches[1]);
-    lastScale = currentScale;
-    
-    // Track initial center point for panning
-    touchStartX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-    touchStartY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-    lastPosX = posX;
-    lastPosY = posY;
-    
-    // Calculate zoom origin relative to image center
-    const rect = lightboxImg.getBoundingClientRect();
-    const imgCenterX = rect.left + rect.width / 2;
-    const imgCenterY = rect.top + rect.height / 2;
-    pinchCenterX = touchStartX - imgCenterX;
-    pinchCenterY = touchStartY - imgCenterY;
-  } else if (e.touches.length === 1 && currentScale > 1.1) {
-    // Single touch while zoomed - prepare for pan
-    isPanning = true;
-    isPinching = false;
-    lastPosX = posX;
-    lastPosY = posY;
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-  }
+    if (e.touches.length === 1 && currentScale <= 1.1) {
+        // Single touch, not zoomed - prepare for swipe
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        isPinching = false;
+        isPanning = false;
+        justFinishedPinching = false;
+    } else if (e.touches.length === 2) {
+        // Two fingers - start pinch
+        isPinching = true;
+        isPanning = false;
+        justFinishedPinching = false;
+        initialDistance = getDistance(e.touches[0], e.touches[1]);
+        lastScale = currentScale;
+        
+        // Track initial center point for panning
+        touchStartX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+        touchStartY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+        lastPosX = posX;
+        lastPosY = posY;
+        
+        // Calculate zoom origin relative to image center
+        const rect = lightboxImg.getBoundingClientRect();
+        const imgCenterX = rect.left + rect.width / 2;
+        const imgCenterY = rect.top + rect.height / 2;
+        pinchCenterX = touchStartX - imgCenterX;
+        pinchCenterY = touchStartY - imgCenterY;
+    } else if (e.touches.length === 1 && currentScale > 1.1) {
+        // Single touch while zoomed - prepare for pan
+        isPanning = true;
+        isPinching = false;
+        lastPosX = posX;
+        lastPosY = posY;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+    }
 }, false);
 
 lightbox.addEventListener('touchmove', function(e) {
-  if (e.touches.length === 2 && isPinching) {
-    e.preventDefault();
-    
-    // Calculate new zoom level
-    const currentDistance = getDistance(e.touches[0], e.touches[1]);
-    const newScale = Math.min(Math.max(0.5, (currentDistance / initialDistance) * lastScale), 4);
-    const scaleDelta = newScale - lastScale;
-    
-    // Calculate current center point
-    const currentCenterX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-    const currentCenterY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-    
-    // Pan based on finger movement
-    const panDeltaX = currentCenterX - touchStartX;
-    const panDeltaY = currentCenterY - touchStartY;
-    
-    // Adjust position to zoom into the pinch point
-    // The pinch center should stay fixed on screen as we zoom
-    posX = lastPosX + panDeltaX - (pinchCenterX * scaleDelta);
-    posY = lastPosY + panDeltaY - (pinchCenterY * scaleDelta);
-    
-    currentScale = newScale;
-    
-    lightboxImg.style.transition = 'none';
-    updateTransform();
-  } else if (e.touches.length === 1 && isPanning && currentScale > 1.1) {
-    e.preventDefault();
-    const deltaX = e.touches[0].clientX - touchStartX;
-    const deltaY = e.touches[0].clientY - touchStartY;
-    posX = lastPosX + deltaX;
-    posY = lastPosY + deltaY;
-    
-    lightboxImg.style.transition = 'none';
-    updateTransform();
-  }
+    if (e.touches.length === 2 && isPinching) {
+        e.preventDefault();
+        
+        // Calculate new zoom level
+        const currentDistance = getDistance(e.touches[0], e.touches[1]);
+        const newScale = Math.min(Math.max(0.5, (currentDistance / initialDistance) * lastScale), 4);
+        const scaleDelta = newScale - lastScale;
+        
+        // Calculate current center point
+        const currentCenterX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+        const currentCenterY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+        
+        // Pan based on finger movement
+        const panDeltaX = currentCenterX - touchStartX;
+        const panDeltaY = currentCenterY - touchStartY;
+        
+        // Adjust position to zoom into the pinch point
+        // The pinch center should stay fixed on screen as we zoom
+        posX = lastPosX + panDeltaX - (pinchCenterX * scaleDelta);
+        posY = lastPosY + panDeltaY - (pinchCenterY * scaleDelta);
+        
+        currentScale = newScale;
+        
+        lightboxImg.style.transition = 'none';
+        updateTransform();
+    } else if (e.touches.length === 1 && isPanning && currentScale > 1.1) {
+        e.preventDefault();
+        const deltaX = e.touches[0].clientX - touchStartX;
+        const deltaY = e.touches[0].clientY - touchStartY;
+        posX = lastPosX + deltaX;
+        posY = lastPosY + deltaY;
+        
+        lightboxImg.style.transition = 'none';
+        updateTransform();
+    }
 }, { passive: false });
 
 lightbox.addEventListener('touchend', function(e) {
-  if (isPinching) {
-    isPinching = false;
-    justFinishedPinching = true;
-    // Always reset zoom when fingers are released
-    resetZoom();
-    // Clear the flag after a longer delay to prevent accidental swipes
-    setTimeout(() => {
-      justFinishedPinching = false;
-    }, 300);
-  } else if (isPanning) {
-    isPanning = false;
-    lastPosX = posX;
-    lastPosY = posY;
-  } else if (e.changedTouches.length === 1 && currentScale <= 1.1 && !justFinishedPinching) {
-    // Only handle swipe if not zoomed and didn't just finish pinching
-    touchEndX = e.changedTouches[0].clientX;
-    handleSwipe();
-  }
+    if (isPinching) {
+        isPinching = false;
+        justFinishedPinching = true;
+        // Always reset zoom when fingers are released
+        resetZoom();
+        // Clear the flag after a longer delay to prevent accidental swipes
+        setTimeout(() => {
+            justFinishedPinching = false;
+        }, 300);
+    } else if (isPanning) {
+        isPanning = false;
+        lastPosX = posX;
+        lastPosY = posY;
+    } else if (e.changedTouches.length === 1 && currentScale <= 1.1 && !justFinishedPinching) {
+        // Only handle swipe if not zoomed and didn't just finish pinching
+        touchEndX = e.changedTouches[0].clientX;
+        handleSwipe();
+    }
 }, false);
 
 function getDistance(touch1, touch2) {
-  const dx = touch1.clientX - touch2.clientX;
-  const dy = touch1.clientY - touch2.clientY;
-  return Math.sqrt(dx * dx + dy * dy);
+    const dx = touch1.clientX - touch2.clientX;
+    const dy = touch1.clientY - touch2.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
 }
 
 function updateTransform() {
-  lightboxImg.style.transform = `translate(${posX}px, ${posY}px) scale(${currentScale})`;
+    lightboxImg.style.transform = `translate(${posX}px, ${posY}px) scale(${currentScale})`;
 }
 
 function handleSwipe() {
-  if (isPinching || isPanning || currentScale > 1.1) return;
-  
-  const bigImg = document.getElementsByClassName("big-img")[0];
-  if (!bigImg) return;
-  
-  const swipeThreshold = 50;
-  
-  if (touchEndX < touchStartX - swipeThreshold) {
-    tabThroughLightbox(bigImg, "right");
-    resetZoom();
-  }
-  
-  if (touchEndX > touchStartX + swipeThreshold) {
-    tabThroughLightbox(bigImg, "left");
-    resetZoom();
-  }
+    if (isPinching || isPanning || currentScale > 1.1) return;
+    
+    const bigImg = document.getElementsByClassName("big-img")[0];
+    if (!bigImg) return;
+    
+    const swipeThreshold = 50;
+    
+    if (touchEndX < touchStartX - swipeThreshold) {
+        tabThroughLightbox(bigImg, "right");
+        resetZoom();
+    }
+    
+    if (touchEndX > touchStartX + swipeThreshold) {
+        tabThroughLightbox(bigImg, "left");
+        resetZoom();
+    }
 }
 
 function resetZoom() {
-  currentScale = 1;
-  posX = 0;
-  posY = 0;
-  lastPosX = 0;
-  lastPosY = 0;
-  lastScale = 1;
-  isPinching = false;
-  isPanning = false;
-  lightboxImg.style.transition = 'transform 0.25s ease-out';
-  lightboxImg.style.transform = 'translate(0, 0) scale(1)';
+    currentScale = 1;
+    posX = 0;
+    posY = 0;
+    lastPosX = 0;
+    lastPosY = 0;
+    lastScale = 1;
+    isPinching = false;
+    isPanning = false;
+    lightboxImg.style.transition = 'transform 0.25s ease-out';
+    lightboxImg.style.transform = 'translate(0, 0) scale(1)';
 }
 
 var contain = document.getElementById("lightbox-container");
 contain.addEventListener('click', function (event) {
-  var img = document.getElementById("lightbox-img");
-  // Check if the clicked element is the div itself (not a child element)
-  if (event.target === contain) {
-    var bigImg = document.getElementsByClassName("big-img")[0];
-    if (bigImg != null) {
-      removeBig(bigImg);
+    var img = document.getElementById("lightbox-img");
+    // Check if the clicked element is the div itself (not a child element)
+    if (event.target === contain) {
+        var bigImg = document.getElementsByClassName("big-img")[0];
+        if (bigImg != null) {
+            removeBig(bigImg);
+        }
     }
-  }
 });
 
 function getXY(e) {
-  var ratioX = e.target.naturalWidth / e.target.offsetWidth;
-  var ratioY = e.target.naturalHeight / e.target.offsetHeight;
+    var ratioX = e.target.naturalWidth / e.target.offsetWidth;
+    var ratioY = e.target.naturalHeight / e.target.offsetHeight;
 
-  var imgX = e.x + window.pageXOffset - e.target.parentNode.getBoundingClientRect().left;
-  var imgY = e.y + window.pageYOffset - e.target.parentNode.getBoundingClientRect().top;
+    var imgX = e.x + window.pageXOffset - e.target.parentNode.getBoundingClientRect().left;
+    var imgY = e.y + window.pageYOffset - e.target.parentNode.getBoundingClientRect().top;
 
-  console.log(imgX, imgY);
+    console.log(imgX, imgY);
 
-  return [imgX, imgY];
+    return [imgX, imgY];
 }
 
 function scale(element) {
-  const isSmallScreen = window.matchMedia('screen and (max-width: 800px)').matches;
+    const isSmallScreen = window.matchMedia('screen and (max-width: 800px)').matches;
 
-  if (isSmallScreen) {
-    if (element.classList.contains("small-img")) {
-      var bigImg = document.getElementsByClassName("big-img")[0];
-      if (bigImg != null) removeBig(bigImg);
-      addBig(element);
+    if (isSmallScreen) {
+        if (element.classList.contains("small-img")) {
+            var bigImg = document.getElementsByClassName("big-img")[0];
+            if (bigImg != null) removeBig(bigImg);
+            addBig(element);
+        }
+    } else {
+        if (!element.classList.contains("big-img")) {
+            var bigImg = document.getElementsByClassName("big-img")[0];
+            if (bigImg != null) removeBig(bigImg);
+            addBig(element);
+        }
     }
-  } else {
-    if (!element.classList.contains("big-img")) {
-      var bigImg = document.getElementsByClassName("big-img")[0];
-      if (bigImg != null) removeBig(bigImg);
-      addBig(element);
-    }
-  }
 }
 
 function openCloseProject(table) {
-  let element = table.parentNode;
-  let remove = element.classList.contains("active")
+    let element = table.parentNode;
+    let remove = element.classList.contains("active")
 
-  x = document.getElementsByClassName("tab");
-  for (i = 0; i < x.length; i++) {
-    w3RemoveClass(x[i], "active");
-  }
+    x = document.getElementsByClassName("tab");
+    for (i = 0; i < x.length; i++) {
+        w3RemoveClass(x[i], "active");
+    }
 
-  if (!remove) {
-    var bigImg = document.getElementsByClassName("big-img")[0];
-    if (bigImg != null) removeBig(bigImg);
-    w3AddClass(element, "active");
-  }
+    if (!remove) {
+        var bigImg = document.getElementsByClassName("big-img")[0];
+        if (bigImg != null) removeBig(bigImg);
+        w3AddClass(element, "active");
+    }
 }
 
-//From elsewhere
+// From elsewhere
 
 filterSelection("all")
 function filterSelection(c) {
-  var x, i;
-  x = document.getElementsByClassName("tab");
-  if (c == "all") c = "";
-  for (i = 0; i < x.length; i++) {
-    w3RemoveClass(x[i], "show");
-    if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
-  }
+    var x, i;
+    x = document.getElementsByClassName("tab");
+    if (c == "all") c = "";
+    for (i = 0; i < x.length; i++) {
+        w3RemoveClass(x[i], "show");
+        if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+    }
 }
 
 function w3AddClass(element, name) {
-  var i, arr1, arr2;
-  arr1 = element.className.split(" ");
-  arr2 = name.split(" ");
-  for (i = 0; i < arr2.length; i++) {
-    if (arr1.indexOf(arr2[i]) == -1) { element.className += " " + arr2[i]; }
-  }
+    var i, arr1, arr2;
+    arr1 = element.className.split(" ");
+    arr2 = name.split(" ");
+    for (i = 0; i < arr2.length; i++) {
+        if (arr1.indexOf(arr2[i]) == -1) { element.className += " " + arr2[i]; }
+    }
 }
 
 function w3RemoveClass(element, name) {
-  var i, arr1, arr2;
-  arr1 = element.className.split(" ");
-  arr2 = name.split(" ");
-  for (i = 0; i < arr2.length; i++) {
-    while (arr1.indexOf(arr2[i]) > -1) {
-      arr1.splice(arr1.indexOf(arr2[i]), 1);
+    var i, arr1, arr2;
+    arr1 = element.className.split(" ");
+    arr2 = name.split(" ");
+    for (i = 0; i < arr2.length; i++) {
+        while (arr1.indexOf(arr2[i]) > -1) {
+            arr1.splice(arr1.indexOf(arr2[i]), 1);
+        }
     }
-  }
-  element.className = arr1.join(" ");
+    element.className = arr1.join(" ");
 }
 
 // Add active class to the current button (highlight it)
 var btnContainer = document.getElementById("filters");
 var btns = btnContainer.getElementsByClassName("filterSelector");
 for (var i = 0; i < btns.length; i++) {
-  btns[i].addEventListener("click", function () {
-    var current = document.getElementsByClassName("active");
-    current[0].className = current[0].className.replace(" active", "");
-    this.className += " active";
-  });
+    btns[i].addEventListener("click", function () {
+        var current = document.getElementsByClassName("active");
+        current[0].className = current[0].className.replace(" active", "");
+        this.className += " active";
+    });
 }
 
 // Lazy loading - load images on hover
 function lazyLoadImage(img) {
-  const highResSrc = img.getAttribute('data-src');
-  
-  // Only load if not already loaded
-  if (highResSrc && !img.src) {
-    img.src = highResSrc;
-  }
+    const highResSrc = img.getAttribute('data-src');
+    
+    // Only load if not already loaded
+    if (highResSrc && !img.src) {
+        img.src = highResSrc;
+    }
 }
 
 // Attach hover listeners to tabs for lazy loading
 document.addEventListener('DOMContentLoaded', function() {
-  const tabs = document.querySelectorAll('.tab');
-  
-  tabs.forEach(tab => {
-    tab.addEventListener('mouseenter', function() {
-      const img = tab.querySelector('.hover-img');
-      if (img) {
-        lazyLoadImage(img);
-      }
+    const tabs = document.querySelectorAll('.tab');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('mouseenter', function() {
+            const img = tab.querySelector('.hover-img');
+            if (img) {
+                lazyLoadImage(img);
+            }
+        });
     });
-  });
 });
 
 // Sam edited code from:
 // https://levelup.gitconnected.com/use-javascript-to-make-an-element-follow-the-cursor-3872307778b4
 document.addEventListener('mousemove', function (e) {
-  let body = document.querySelector('body');
-  let hoverImgWrappers = document.getElementsByClassName('hover-img-wrapper');
-  let left = e.clientX;
-  let top = e.clientY;
-  //PART OF ME THINKS WE CAN MAKE THIS RUN FASTER (via the conditonal)
-  for (let i = 0; i < hoverImgWrappers.length; i++) {
-    let wrapper = hoverImgWrappers[i]
-    // console.log(window.innerHeight)
-    if (window.innerHeight < (top + 20 + wrapper.offsetHeight)) {
-      wrapper.style.transform = "translate(0%, -100%)";
-      wrapper.style.left = (left + 15) + 'px';
-      wrapper.style.top = (top - 10) + 'px';
-    } else {
-      wrapper.style.transform = "translate(0%, 0%)";
-      wrapper.style.left = (left + 15) + 'px';
-      wrapper.style.top = (top + 20) + 'px';
+    let body = document.querySelector('body');
+    let hoverImgWrappers = document.getElementsByClassName('hover-img-wrapper');
+    let left = e.clientX;
+    let top = e.clientY;
+    //PART OF ME THINKS WE CAN MAKE THIS RUN FASTER (via the conditonal)
+    for (let i = 0; i < hoverImgWrappers.length; i++) {
+        let wrapper = hoverImgWrappers[i]
+        // console.log(window.innerHeight)
+        if (window.innerHeight < (top + 20 + wrapper.offsetHeight)) {
+            wrapper.style.transform = "translate(0%, -100%)";
+            wrapper.style.left = (left + 15) + 'px';
+            wrapper.style.top = (top - 10) + 'px';
+        } else {
+            wrapper.style.transform = "translate(0%, 0%)";
+            wrapper.style.left = (left + 15) + 'px';
+            wrapper.style.top = (top + 20) + 'px';
+        }
     }
-  }
 });
   </script>
 
