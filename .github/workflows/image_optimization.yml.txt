@@ -1,0 +1,61 @@
+name: Image Optimization to AVIF
+
+on:
+  push:
+    branches:
+      - main  # Or master, depending on your main branch name
+    paths:
+      - 'images/**.jpg' # Adjust to match your image directories
+      - 'images/**.jpeg'
+      - 'images/**.png'
+      - 'images/**.webp'
+
+jobs:
+  optimize_images:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Squoosh CLI
+        run: npm install -g @squoosh/cli
+
+      - name: Find and Optimize Images
+        id: optimize
+        run: |
+          # The find command recursively searches your 'images' folder for common formats.
+          # The squoosh-cli converts the input to AVIF and overwrites the input file.
+          # NOTE: AVIF conversion is slow. If you have hundreds of images, this may time out.
+          find images -type f \( -iname \*.jpg -o -iname \*.jpeg -o -iname \*.png \) | while read IMG_FILE; do
+            echo "Optimizing $IMG_FILE to AVIF..."
+            # Replace the old file extension with .avif
+            AVIF_FILE="${IMG_FILE%.*}.avif"
+            
+            # Use Squoosh to convert, setting quality to 75 (adjustable)
+            npx @squoosh/cli --avif '{"quality":75,"speed":6}' "$IMG_FILE" -o "$AVIF_FILE"
+            
+            # OPTIONAL: Remove the old unoptimized file to keep the repo clean
+            rm "$IMG_FILE"
+            echo "Converted to $AVIF_FILE"
+          done
+        env:
+          # Increase memory limit for Squoosh, which can be memory-intensive
+          NODE_OPTIONS: --max-old-space-size=4096
+
+      - name: Commit Optimized Images
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'Auto: Convert images to AVIF via GitHub Action'
+          branch: main
+          # Add the AVIF files and remove the old files from the commit
+          files: |
+            images/**/*.avif
+            images/**/*.jpg
+            images/**/*.jpeg
+            images/**/*.png
