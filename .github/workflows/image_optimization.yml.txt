@@ -5,10 +5,10 @@ on:
     branches:
       - main  # Or master, depending on your main branch name
     paths:
-      - 'images/**.jpg' # Adjust to match your image directories
-      - 'images/**.jpeg'
-      - 'images/**.png'
-      - 'images/**.webp'
+      - 'img/**.jpg'   # CORRECTED
+      - 'img/**.jpeg'  # CORRECTED
+      - 'img/**.png'   # CORRECTED
+      - 'img/**.webp'  # CORRECTED
 
 jobs:
   optimize_images:
@@ -29,10 +29,8 @@ jobs:
       - name: Find and Optimize Images
         id: optimize
         run: |
-          # The find command recursively searches your 'images' folder for common formats.
-          # The squoosh-cli converts the input to AVIF and overwrites the input file.
-          # NOTE: AVIF conversion is slow. If you have hundreds of images, this may time out.
-          find images -type f \( -iname \*.jpg -o -iname \*.jpeg -o -iname \*.png \) | while read IMG_FILE; do
+          # The find command recursively searches your 'img' folder
+          find img -type f \( -iname \*.jpg -o -iname \*.jpeg -o -iname \*.png \) | while read IMG_FILE; do
             echo "Optimizing $IMG_FILE to AVIF..."
             # Replace the old file extension with .avif
             AVIF_FILE="${IMG_FILE%.*}.avif"
@@ -55,7 +53,7 @@ jobs:
           branch: main
           # Add the AVIF files and remove the old files from the commit
           files: |
-            images/**/*.avif
-            images/**/*.jpg
-            images/**/*.jpeg
-            images/**/*.png
+            img/**/*.avif  # CORRECTED
+            img/**/*.jpg
+            img/**/*.jpeg
+            img/**/*.png
