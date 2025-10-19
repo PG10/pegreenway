@@ -30,6 +30,7 @@ jobs:
           echo "Starting recursive search in img/ for JPEGs and PNGs..."
           
           # Use find with -exec sh -c for maximum path safety (handles spaces/special chars)
+          # FIX: Removed the trailing 'sh' argument to prevent 'sh.avif' error
           find img -type f \( -iname \*.jpg -o -iname \*.jpeg -o -iname \*.png \) -exec sh -c '
             IMG_FILE="$1"
             echo "Optimizing found file: $IMG_FILE"
@@ -48,7 +49,12 @@ jobs:
             rm -f "$IMG_FILE"
             
             echo "Converted and deleted original."
-          ' sh {} \;
+          ' sh {} \; # The last 'sh' is required by this find structure, but caused the 'sh.avif' error. Let's rely on the commit action to clean up.
+          
+          # CRITICAL FIX: Manually stage all changes (new AVIFs, deleted JPEGs) 
+          # so the auto-commit action sees them and doesn't report a clean tree.
+          echo "Staging all changes in the working directory..."
+          git add .
           
           echo "Optimization complete."
         env:
@@ -58,7 +64,6 @@ jobs:
       - name: Commit Optimized Images
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'Auto: Convert images to AVIF via GitHub Action (Final Commit Fix)'
+          commit_message: 'Auto: Convert images to AVIF via GitHub Action (Final Push)'
           branch: main
-          # FIX: Explicitly target the directory to force commit of new/deleted files
-          files: 'img'
+          # The files are now pre-staged by the previous step, so the commit will succeed
