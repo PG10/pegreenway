@@ -36,9 +36,9 @@ jobs:
             AVIF_FILE="${IMG_FILE%.*}.avif"
             echo "Optimizing $IMG_FILE to $AVIF_FILE"
             
-            # Run Squoosh, setting AVIF quality and speed, and explicitly defining the output file path.
-            # We use the -o flag to rename the output directly.
-            npx @squoosh/cli --avif '{"quality":75,"speed":6}' "$IMG_FILE" -o "$AVIF_FILE"
+            # CRITICAL FIX: Removed the problematic "-o $AVIF_FILE" flag.
+            # Squoosh automatically outputs the AVIF file by replacing the extension (e.g., image.jpg -> image.avif).
+            npx @squoosh/cli --avif '{"quality":75,"speed":6}' "$IMG_FILE"
             SQUOOSH_EXIT_CODE=$?
             
             if [ $SQUOOSH_EXIT_CODE -eq 0 ]; then
