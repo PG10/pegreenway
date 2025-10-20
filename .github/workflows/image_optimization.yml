@@ -4,9 +4,10 @@ on:
   push:
     branches:
       - main
-  
+      - master # Added master branch for common setups
+      
   # Enables manual running from the GitHub Actions tab
-  workflow_dispatch: 
+  workflow_dispatch:  
 
 jobs:
   optimize_images:
@@ -30,28 +31,28 @@ jobs:
           echo "Starting recursive search in img/ for JPEGs and PNGs..."
           
           # Use find with -exec sh -c for maximum path safety (handles spaces/special chars)
-          # FIX: Removed the trailing 'sh' argument to prevent 'sh.avif' error
           find img -type f \( -iname \*.jpg -o -iname \*.jpeg -o -iname \*.png \) -exec sh -c '
             IMG_FILE="$1"
-            echo "Optimizing found file: $IMG_FILE"
-            
-            # 1. Define the final target path for the AVIF file
             AVIF_FILE="${IMG_FILE%.*}.avif"
+            echo "Optimizing $IMG_FILE to $AVIF_FILE"
             
-            # 2. Run Squoosh (creates file.avif next to file.jpg)
-            npx @squoosh/cli --avif '{"quality":75,"speed":6}' "$IMG_FILE"
+            # Run Squoosh, setting AVIF quality and speed, and explicitly defining the output file path.
+            # We use the -o flag to rename the output directly.
+            npx @squoosh/cli --avif '{"quality":75,"speed":6}' "$IMG_FILE" -o "$AVIF_FILE"
+            SQUOOSH_EXIT_CODE=$?
             
-            # 3. Rename/Move the Squoosh output file to the final destination
-            SQUOOSH_OUTPUT="${IMG_FILE%.*}.avif"
-            mv -f "$SQUOOSH_OUTPUT" "$AVIF_FILE"
+            if [ $SQUOOSH_EXIT_CODE -eq 0 ]; then
+              # Conversion succeeded, safely remove the original file.
+              rm -f "$IMG_FILE"
+              echo "Converted and deleted original."
+            else
+              # Conversion failed. Keep the original file and log the error.
+              echo "ERROR: Squoosh failed to process $IMG_FILE (Exit Code: $SQUOOSH_EXIT_CODE). Keeping original."
+            fi
             
-            # 4. Remove the old unoptimized file
-            rm -f "$IMG_FILE"
-            
-            echo "Converted and deleted original."
-          ' sh {} \; # The last 'sh' is required by this find structure, but caused the 'sh.avif' error. Let's rely on the commit action to clean up.
+          ' sh {} \;
           
-          # CRITICAL FIX: Manually stage all changes (new AVIFs, deleted JPEGs) 
+          # CRITICAL: Manually stage all changes (new AVIFs, deleted JPEGs) 
           # so the auto-commit action sees them and doesn't report a clean tree.
           echo "Staging all changes in the working directory..."
           git add .
@@ -64,6 +65,6 @@ jobs:
       - name: Commit Optimized Images
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'Auto: Convert images to AVIF via GitHub Action (Final Push)'
+          commit_message: 'Auto: Convert images to AVIF via GitHub Action'
           branch: main
           # The files are now pre-staged by the previous step, so the commit will succeed
