@@ -117,7 +117,8 @@ body {
   background-color: white;
   color: black;
   font-weight: 100;
-  line-height: 45px;
+  /* Reverted to original line-height for desktop view. Adjusted for mobile only in media query. */
+  line-height: 45px; 
 
   width: 100%;
   text-align: left;
@@ -180,6 +181,7 @@ body {
 }
 
 .tab-details tr td {
+  /* Reverted to original padding for desktop view. Adjusted for mobile only in media query. */
   padding: 0px 10px;
   font-family: "light", sans-serif;
   color: grey;
@@ -575,8 +577,12 @@ body {
     font-size: 0.7em;
   }
   
-  /* Applying the small font size adjustments specifically for 
-     very small screens (480px and below) */
+  /* Mobile-only tab height adjustment */
+  .tab {
+    line-height: 35px;
+  }
+
+  /* Applying the small font size and tighter padding for mobile */
   .container {
       font-size: 0.95em; 
   }
@@ -586,6 +592,8 @@ body {
   }
 
   .tab-details tr td {
+      /* Tighter padding and font size for small screens */
+      padding: 4px 10px;
       font-size: 0.9em;
   }
 
