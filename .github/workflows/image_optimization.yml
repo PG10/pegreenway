@@ -30,36 +30,31 @@ jobs:
         run: |
           echo "Starting recursive search in img/ for JPEGs and PNGs..."
           
-          # Use find with -exec sh -c for maximum path safety (handles spaces/special chars)
+          # FIX: Simplified the find -exec structure for stability, eliminating the
+          # problematic final 'sh' argument that was being interpreted as a filename.
           find img -type f \( -iname \*.jpg -o -iname \*.jpeg -o -iname \*.png \) -exec sh -c '
-            IMG_FILE="$1"
+            # The file path is correctly passed as $0 (since we removed the extra 'sh' argument).
+            IMG_FILE="$0"
             AVIF_FILE="${IMG_FILE%.*}.avif"
             echo "Optimizing $IMG_FILE to $AVIF_FILE"
             
-            # CRITICAL FIX: Removed the problematic "-o $AVIF_FILE" flag.
-            # Squoosh automatically outputs the AVIF file by replacing the extension (e.g., image.jpg -> image.avif).
             npx @squoosh/cli --avif '{"quality":75,"speed":6}' "$IMG_FILE"
             SQUOOSH_EXIT_CODE=$?
             
             if [ $SQUOOSH_EXIT_CODE -eq 0 ]; then
-              # Conversion succeeded, safely remove the original file.
               rm -f "$IMG_FILE"
               echo "Converted and deleted original."
             else
-              # Conversion failed. Keep the original file and log the error.
               echo "ERROR: Squoosh failed to process $IMG_FILE (Exit Code: $SQUOOSH_EXIT_CODE). Keeping original."
             fi
             
-          ' sh {} \;
+          ' {} \; # CRITICAL CHANGE: Removed the extra 'sh' and now use {} directly as $0
           
-          # CRITICAL: Manually stage all changes (new AVIFs, deleted JPEGs) 
-          # so the auto-commit action sees them and doesn't report a clean tree.
           echo "Staging all changes in the working directory..."
           git add .
           
           echo "Optimization complete."
         env:
-          # Increase memory limit for Squoosh, which can be memory-intensive
           NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Commit Optimized Images
@@ -67,4 +62,3 @@ jobs:
         with:
           commit_message: 'Auto: Convert images to AVIF via GitHub Action'
           branch: main
-          # The files are now pre-staged by the previous step, so the commit will succeed
