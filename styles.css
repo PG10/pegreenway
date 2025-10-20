@@ -567,13 +567,31 @@ body {
   } */
 }
 
-/* NEW: Mobile filter button sizing to fit all in one row */
+/* Existing 480px block */
 @media screen and (max-width: 480px) {
   .filterSelector {
     width: 34px;
     padding: 10px 7px;
     font-size: 0.7em;
   }
-}
+  
+  /* Applying the small font size adjustments specifically for 
+     very small screens (480px and below) */
+  .container {
+      font-size: 0.95em; 
+  }
 
+  #page-title {
+      font-size: 0.85em; 
+  }
+
+  .tab-details tr td {
+      font-size: 0.9em;
+  }
+
+  .project-text td {
+      font-size: 0.9em;
+      line-height: 1.5;
+  }
+}
 /* @media (any-pointer: coarse) {} */
