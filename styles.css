@@ -117,7 +117,7 @@ body {
   background-color: white;
   color: black;
   font-weight: 100;
-  /* Reverted to original line-height for desktop view. Adjusted for mobile only in media query. */
+  /* Desktop line-height */
   line-height: 45px; 
 
   width: 100%;
@@ -181,7 +181,7 @@ body {
 }
 
 .tab-details tr td {
-  /* Reverted to original padding for desktop view. Adjusted for mobile only in media query. */
+  /* Desktop padding (no vertical padding, relies on line-height of parent .tab) */
   padding: 0px 10px;
   font-family: "light", sans-serif;
   color: grey;
@@ -569,7 +569,7 @@ body {
   } */
 }
 
-/* Existing 480px block */
+/* Mobile adjustments (max-width: 480px) */
 @media screen and (max-width: 480px) {
   .filterSelector {
     width: 34px;
@@ -577,12 +577,12 @@ body {
     font-size: 0.7em;
   }
   
-  /* Mobile-only tab height adjustment */
+  /* Reduce overall row height using line-height */
   .tab {
     line-height: 35px;
   }
 
-  /* Applying the small font size and tighter padding for mobile */
+  /* Applying the small font size for mobile */
   .container {
       font-size: 0.95em; 
   }
@@ -592,8 +592,8 @@ body {
   }
 
   .tab-details tr td {
-      /* Tighter padding and font size for small screens */
-      padding: 4px 10px;
+      /* REMOVE VERTICAL PADDING to ensure the row height shrinks based on the reduced line-height. */
+      padding: 0 10px; /* Only horizontal padding remains */
       font-size: 0.9em;
   }
 
