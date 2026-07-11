@@ -1050,7 +1050,6 @@ function addBig(elem) {
     lightbox.style.display = 'block';
 
     lightboxImg.src = elem.src;
-    resetZoom();
 
     elem.classList.add("big-img");
 }
@@ -1334,29 +1333,7 @@ function resetZoom() {
     isPanning = false;
     lightboxImg.style.transition = 'transform 0.25s ease-out';
     lightboxImg.style.transform = 'translate(0, 0) scale(1)';
-    lightboxImg.classList.remove('zoomed');
 }
-
-// Desktop click-to-zoom: click inside the image zooms toward the click point, click again zooms out.
-// Gated to fine pointers so it never fights the touch double-tap/pinch handlers.
-lightboxImg.addEventListener('click', function (e) {
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    e.stopPropagation();
-    if (currentScale > 1.1) {
-        resetZoom();
-        lightboxImg.classList.remove('zoomed');
-    } else {
-        var rect = lightboxImg.getBoundingClientRect();
-        var cx = e.clientX - (rect.left + rect.width / 2);
-        var cy = e.clientY - (rect.top + rect.height / 2);
-        currentScale = 2.5;
-        posX = cx * (1 - currentScale);
-        posY = cy * (1 - currentScale);
-        lightboxImg.style.transition = 'transform 0.3s ease';
-        updateTransform();
-        lightboxImg.classList.add('zoomed');
-    }
-});
 
 var contain = document.getElementById("lightbox-container");
 contain.addEventListener('click', function (event) {

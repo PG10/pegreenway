@@ -606,9 +606,3 @@ body {
   }
 }
 /* @media (any-pointer: coarse) {} */
-
-/* lightbox click-zoom cursor (desktop pointers only) */
-@media (hover: hover) and (pointer: fine) {
-  #lightbox-img { cursor: zoom-in; }
-  #lightbox-img.zoomed { cursor: zoom-out; }
-}

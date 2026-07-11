@@ -1,37 +1,31 @@
 @font-face {
   font-family: "Light";
   src: url("fonts/helvetica/HelveticaNeueCyr-Light.otf");
-  font-display: swap;
 }
 
 @font-face {
   font-family: "Medium";
   src: url("fonts/helvetica/HelveticaNeueCyr-Roman.otf");
-  font-display: swap;
 }
 
 @font-face {
   font-family: "Bold";
   src: url("fonts/helvetica/HelveticaNeueCyr-Bold.otf");
-  font-display: swap;
 }
 
 @font-face {
   font-family: "Heavy";
   src: url("fonts/helvetica/HelveticaNeueCyr-Heavy.otf");
-  font-display: swap;
 }
 
 @font-face {
   font-family: "Gothic";
   src: url("fonts/letter/LetterGothicStd.otf");
-  font-display: swap;
 }
 
 @font-face {
   font-family: "Gothic Bold";
   src: url("fonts/letter gothic/LetterGothicStd-Bold.otf");
-  font-display: swap;
 }
 
 /* unvisited link */
@@ -82,6 +76,7 @@ body {
 #page-title {
   float: right;
   font-family: light;
+  font-weight: 1px;
   width: 30%;
   text-align: right;
   padding: 0;
@@ -260,6 +255,7 @@ body {
 
 .project-info {
   max-height: 0;
+  transition: max-height 0s ease-in-out;
   overflow: hidden;
   height: auto;
   background-color: white;
@@ -398,6 +394,7 @@ body {
   background-color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
   display: none;
+  pointer-events: visibleFill;
 }
 
 #lightbox-container {
@@ -606,9 +603,3 @@ body {
   }
 }
 /* @media (any-pointer: coarse) {} */
-
-/* lightbox click-zoom cursor (desktop pointers only) */
-@media (hover: hover) and (pointer: fine) {
-  #lightbox-img { cursor: zoom-in; }
-  #lightbox-img.zoomed { cursor: zoom-out; }
-}
